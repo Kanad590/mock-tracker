@@ -822,6 +822,9 @@
         <button id="guideTabBtn_network" onclick="switchGuideTab('network')" class="px-3 sm:px-4 py-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-midnight dark:hover:text-teal-300 -mb-px flex items-center gap-1.5 shrink-0">
           <span data-i18n="guide_tab_network">🌐 Wi-Fi & Tailscale</span>
         </button>
+        <button id="guideTabBtn_bookmarklet" onclick="switchGuideTab('bookmarklet')" class="px-3 sm:px-4 py-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-midnight dark:hover:text-teal-300 -mb-px flex items-center gap-1.5 shrink-0">
+          <span data-i18n="guide_tab_bookmarklet">⚡ 1-Click Bookmarklet</span>
+        </button>
         <button id="guideTabBtn_ocr" onclick="switchGuideTab('ocr')" class="px-3 sm:px-4 py-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-midnight dark:hover:text-teal-300 -mb-px flex items-center gap-1.5 shrink-0">
           <span data-i18n="guide_tab_ocr">📸 Scorecard Scan</span>
         </button>
@@ -958,7 +961,62 @@
           </div>
         </div>
 
-        <!-- Tab 3: OCR Scorecard -->
+        <!-- Tab 3: 1-Click Bookmarklet -->
+        <div id="guideTabView_bookmarklet" class="hidden space-y-4">
+          <div class="p-4 rounded-2xl bg-amber-50/80 dark:bg-slate-800 border border-amber-200 dark:border-slate-700 space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="font-extrabold text-amber-950 dark:text-amber-300 text-sm flex items-center gap-2">
+                <span>⚡</span> <span data-i18n="guide_bm_title">1-Click Testbook & Portal Bookmarklet</span>
+              </h4>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-200 dark:bg-amber-900 text-amber-900 dark:text-amber-200">Zero Typing</span>
+            </div>
+            <p class="text-gray-700 dark:text-gray-300 text-xs leading-relaxed" data-i18n="guide_bm_desc">
+              Testbook বা অন্য প্ল্যাটফর্মে মক টেস্ট শেষ হওয়ার পর কোনো নম্বর টাইপ করার দরকার নেই! রেজাল্ট পেইজে থাকা অবস্থায় শুধু এই বুকমার্কটিতে ১টি ক্লিক করলেই সমস্ত স্কোর, প্রশ্ন সংখ্যা এবং কাটঅফ নিজে থেকেই লক্ষ্য ট্র্যাকারে সেভ হয়ে যাবে।
+            </p>
+
+            <!-- Drag to Bookmarks Bar -->
+            <div class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-amber-200/60 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div class="space-y-0.5 text-center sm:text-left">
+                <span class="text-xs font-bold text-gray-900 dark:text-gray-100 flex items-center gap-1.5 justify-center sm:justify-start">
+                  <span>📌</span> <span data-i18n="guide_bm_drag_label">Drag this button to your Bookmarks Bar:</span>
+                </span>
+                <span class="text-[11px] text-gray-500 dark:text-gray-400 block" data-i18n="guide_bm_drag_hint">
+                  (বাটনটি মাউস দিয়ে টেনে নিয়ে ব্রাউজারের বুকমার্কস বারে রেখে দিন)
+                </span>
+              </div>
+              <a id="dragBookmarkletBtn" href="#" onclick="alert(t('guide_bm_click_alert') || 'Drag this button to your Bookmarks Bar, or copy the code below!'); return false;" class="px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 shrink-0 cursor-grab active:cursor-grabbing transition-transform active:scale-95">
+                <span>⚡</span> <span>Sync to Lakshya</span>
+              </a>
+            </div>
+
+            <!-- Manual Copy Box -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-gray-800 dark:text-gray-200 flex items-center gap-1">
+                  <span>📋</span> <span data-i18n="guide_bm_code_label">Bookmarklet Code (For Phone / Manual Bookmark):</span>
+                </span>
+                <button type="button" onclick="copyBookmarkletCode(this)" class="bg-amber-700 hover:bg-amber-600 text-white font-bold text-xs px-3 py-1 rounded-lg flex items-center gap-1 transition-colors">
+                  <span data-i18n="btn_copy_code">📋 Copy Code</span>
+                </button>
+              </div>
+              <textarea id="bookmarkletCodeArea" readonly rows="3" class="w-full font-mono text-[11px] p-2.5 bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-700 rounded-xl text-gray-700 dark:text-gray-300 select-all focus:outline-none"></textarea>
+            </div>
+
+            <!-- 3 Steps -->
+            <div class="space-y-1 text-xs text-gray-700 dark:text-gray-300 pt-1">
+              <div class="font-bold text-amber-900 dark:text-amber-300 flex items-center gap-1">
+                <span>📖</span> <span data-i18n="guide_bm_how_title">কীভাবে ব্যবহার করবেন:</span>
+              </div>
+              <ul class="space-y-1 text-[11px] text-gray-600 dark:text-gray-400 list-disc list-inside">
+                <li data-i18n="guide_bm_step1">ধাপ ১: উপরের বোতামটি ব্রাউজারের বুকমার্কস বারে টেনে রাখুন (বা কোডটি কপি করে নতুন বুকমার্কে ইউআরএল হিসেবে পেস্ট করুন)।</li>
+                <li data-i18n="guide_bm_step2">ধাপ ২: Testbook-এ যেকোনো মক টেস্ট শেষ করে রেজাল্ট / Analysis পেইজ খুলুন।</li>
+                <li data-i18n="guide_bm_step3">ধাপ ৩: বুকমার্কস বার থেকে <b>"⚡ Sync to Lakshya"</b>-এ চাপুন — নিমেষে আপনার প্রাপ্ত নম্বর, কাটঅফ ও অ্যাকুরেসি লক্ষ্য ট্র্যাকারে সংরক্ষিত হয়ে যাবে!</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: OCR Scorecard -->
         <div id="guideTabView_ocr" class="hidden space-y-3">
           <div class="p-4 rounded-2xl bg-amber-50/70 dark:bg-slate-800 border border-amber-200 dark:border-slate-700 space-y-2.5">
             <h4 class="font-extrabold text-midnight dark:text-teal-300 text-sm flex items-center gap-2">

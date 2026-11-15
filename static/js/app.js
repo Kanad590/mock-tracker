@@ -1012,6 +1012,7 @@ function handleHashNavigation() {
   if (hash === "#guide" || hash.startsWith("#guide-")) {
     openSetupGuideModal();
     if (hash === "#guide-network") switchGuideTab("network");
+    else if (hash === "#guide-bookmarklet") switchGuideTab("bookmarklet");
     else if (hash === "#guide-ocr") switchGuideTab("ocr");
     else if (hash === "#guide-sync") switchGuideTab("sync");
   } else if (hash === "#log") {
@@ -1026,11 +1027,13 @@ function handleHashNavigation() {
 window.addEventListener("hashchange", handleHashNavigation);
 document.addEventListener("DOMContentLoaded", () => {
   updateDynamicUrls();
+  updateBookmarkletElements();
   setTimeout(handleHashNavigation, 150);
 });
 
 function openSetupGuideModal() {
   updateDynamicUrls();
+  updateBookmarkletElements();
   openModal("setupGuideModal");
   switchGuideTab("mobile");
 }
@@ -1039,6 +1042,7 @@ function updateDynamicUrls() {
   const origin = window.location.origin || (window.location.protocol + "//" + window.location.host);
   const el = document.getElementById("currentDetectedUrl");
   if (el) el.textContent = origin;
+  updateBookmarkletElements();
 }
 
 function copyDetectedUrl(btnElement) {
@@ -1046,8 +1050,28 @@ function copyDetectedUrl(btnElement) {
   copyToClipboard(origin, btnElement);
 }
 
+function getBookmarkletScript() {
+  const origin = window.location.origin || (window.location.protocol + "//" + window.location.host);
+  const targetUrl = origin + "/api/mocks";
+  
+  return `javascript:(function(){const t=document.body.innerText;const isCGL=/ssc\\s*cgl/i.test(t);const isCHSL=/ssc\\s*chsl/i.test(t);const isJE_SSC=/ssc\\s*je/i.test(t);const isRRB_JE=/rrb\\s*je|junior\\s*engineer/i.test(t);const isALP=/alp|assistant\\s*loco/i.test(t);const isNTPC=/ntpc/i.test(t);const isWBPSC=/wbpsc|wbcs|miscellaneous/i.test(t);const isBanking=/ibps|sbi|po\\s*prelim/i.test(t);const isGATE=/gate/i.test(t);const title=(document.querySelector('h1, [class*="testTitle"], [class*="test-title"]')?.innerText||document.title||'Testbook Mock').substring(0,50).trim();const scoreM=t.match(/(\\d+(?:\\.\\d+)?)\\s*\\/\\s*(\\d+)\\s+Score/i)||t.match(/Score\\s*[:=\\-]?\\s*(\\d+(?:\\.\\d+)?)/i);const attM=t.match(/(\\d+)\\s*\\/\\s*(\\d+)\\s+Attempted/i)||t.match(/Attempted\\s*[:=\\-]?\\s*(\\d+)/i);const accM=t.match(/(\\d+(?:\\.\\d+)?)\\s*%\\s+Accuracy/i);const cutoffM=t.match(/(\\d+(?:\\.\\d+)?)\\s*\\/\\s*(\\d+(?:\\.\\d+)?)\\s*Cutoff Gap/i);let exam_code='custom';let exam_name='Competitive Mock Test';let m=1.0;let p=0.3333;let totalM=100;let totalQ=100;let defaultCutoff=65;if(isCGL){exam_code='ssc-cgl';exam_name='SSC CGL (Tier-1)';m=2.0;p=0.50;totalM=200;totalQ=100;defaultCutoff=138;}else if(isCHSL){exam_code='ssc-chsl';exam_name='SSC CHSL (Tier-1)';m=2.0;p=0.50;totalM=200;totalQ=100;defaultCutoff=142;}else if(isJE_SSC){exam_code='ssc-je';exam_name='SSC JE Paper-1';m=1.0;p=0.25;totalM=200;totalQ=200;defaultCutoff=132;}else if(isRRB_JE){exam_code='rrb-je';exam_name='RRB JE (CBT-1)';m=1.0;p=0.3333;totalM=100;totalQ=100;defaultCutoff=68;}else if(isALP){exam_code='rrb-alp';exam_name='RRB ALP (CBT-1)';m=1.0;p=0.3333;totalM=75;totalQ=75;defaultCutoff=48;}else if(isNTPC){exam_code='rrb-ntpc';exam_name='RRB NTPC (CBT-1)';m=1.0;p=0.3333;totalM=100;totalQ=100;defaultCutoff=74;}else if(isWBPSC){exam_code='wbpsc-misc';exam_name='WBPSC Miscellaneous';m=2.0;p=0.6667;totalM=200;totalQ=100;defaultCutoff=125;}else if(isBanking){exam_code='ibps-po';exam_name='IBPS / SBI PO Prelims';m=1.0;p=0.25;totalM=100;totalQ=100;defaultCutoff=58;}else if(isGATE){exam_code='gate-eng';exam_name='GATE Engineering';m=1.0;p=0.3333;totalM=100;totalQ=65;defaultCutoff=35;}const score=scoreM?parseFloat(scoreM[1]):0;if(scoreM&&scoreM[2])totalM=parseFloat(scoreM[2]);const att=attM?parseInt(attM[1]):0;if(attM&&attM[2])totalQ=parseInt(attM[2]);const cutoff=cutoffM?parseFloat(cutoffM[2]||cutoffM[1]):defaultCutoff;const cor=Math.round((score+p*att)/(m+p));const wrg=Math.max(0,att-cor);fetch('${targetUrl}',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({exam_code:exam_code,exam_name:exam_name,test_title:title,provider:'Testbook',test_date:new Date().toISOString().split('T')[0],test_type:'full_mock',total_q:totalQ,total_marks:totalM,attempted:att,correct:cor,wrong:wrg,target_cutoff:cutoff,time_spent_min:60,marks_per_correct:m,penalty_per_wrong:p,notes:'Synced via 1-Click Bookmarklet from Testbook Analysis page.'})}).then(r=>r.json()).then(d=>{alert('🎯 Lakshya Tracker সিঙ্ক সফল!\\n\\nপরীক্ষা: '+exam_name+'\\nপ্রাপ্ত নম্বর: '+score+' / '+totalM+'\\nঅ্যাটেম্পট: '+att+' (সঠিক: '+cor+', ভুল: '+wrg+')\\nঅ্যাকুরেসি: '+(accM?accM[1]:'')+'%');}).catch(e=>alert('❌ সিঙ্ক এরর: '+e));})();`;
+}
+
+function updateBookmarkletElements() {
+  const code = getBookmarkletScript();
+  const link = document.getElementById("dragBookmarkletBtn");
+  const area = document.getElementById("bookmarkletCodeArea");
+  if (link) link.href = code;
+  if (area) area.value = code;
+}
+
+function copyBookmarkletCode(btnElement) {
+  const area = document.getElementById("bookmarkletCodeArea");
+  if (area) copyToClipboard(area.value, btnElement);
+}
+
 function switchGuideTab(tabId) {
-  const tabs = ["mobile", "network", "ocr", "sync"];
+  const tabs = ["mobile", "network", "bookmarklet", "ocr", "sync"];
   tabs.forEach(tName => {
     const btn = document.getElementById(`guideTabBtn_${tName}`);
     const view = document.getElementById(`guideTabView_${tName}`);
@@ -1065,6 +1089,9 @@ function switchGuideTab(tabId) {
       if (view) view.classList.add("hidden");
     }
   });
+  if (tabId === "bookmarklet") {
+    updateBookmarkletElements();
+  }
 }
 
 function copyToClipboard(text, btnElement) {

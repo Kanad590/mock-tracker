@@ -189,6 +189,7 @@ Lakshya dynamically adapts to your network without hardcoding any IP addresses.
 ```
   ┌────────────────────────────────────────────────────────────────────────┐
   │  🎯 Lakshya Analytics Engine                                           │
+  │  ├── ⚡ 1-Click Testbook & Portal Bookmarklet (Zero Typing Auto-Sync)   │
   │  ├── 📊 Score vs Cutoff Trend Line Charts (Chart.js)                   │
   │  ├── 🕸️ Subject Mastery Radar (Pinpoint Strong vs Weak Areas)         │
   │  ├── 🚨 Critical Weakness Badges (Actionable Revision Focus)           │
@@ -199,16 +200,35 @@ Lakshya dynamically adapts to your network without hardcoding any IP addresses.
   └────────────────────────────────────────────────────────────────────────┘
 ```
 
-1. **Automated Penalty Engine**: Negative marks are computed mathematically based on exact official notification rules for each examination.
-2. **Cognitive Mistake Taxonomy**: Tag each mistake by category:
+1. **⚡ 1-Click Universal Testbook Bookmarklet**: Sync your test scores directly from Testbook or Oliveboard result pages with a single click in your browser bookmarks bar—zero manual score entry required!
+2. **Automated Penalty Engine**: Negative marks are computed mathematically based on exact official notification rules for each examination.
+3. **Cognitive Mistake Taxonomy**: Tag each mistake by category:
    - `Silly Error` (Calculation slip, missed question nuance)
    - `Formula Gap` (Forgot formula or constant)
    - `Concept Gap` (Theoretical topic unlearned)
    - `Time Pressure` (Rushed during last 10 minutes)
    - `Blind Guess` (Negative mark gamble)
-3. **Smart Radar Breakdown**: Visualizes your balance across Quantitative Aptitude, Reasoning, General Science, Technical Core, and General Awareness.
-4. **Scorecard Image Upload**: Upload screenshot images or paste directly from clipboard (`Ctrl + V`).
-5. **Optional Kanboard Integration**: Seamlessly syncs syllabus tasks, stage milestones, and exam targets from self-hosted Kanboard.
+4. **Smart Radar Breakdown**: Visualizes your balance across Quantitative Aptitude, Reasoning, General Science, Technical Core, and General Awareness.
+5. **Scorecard Image Upload**: Upload screenshot images or paste directly from clipboard (`Ctrl + V`).
+6. **Optional Kanboard Integration**: Seamlessly syncs syllabus tasks, stage milestones, and exam targets from self-hosted Kanboard.
+
+---
+
+### ⚡ 1-Click Testbook Bookmarklet (Zero Typing Mock Sync)
+
+Lakshya includes a smart browser bookmarklet that extracts your scores, attempted counts, and target cutoff directly from any Testbook analysis page and syncs it to your database in less than 1 second.
+
+- 🇬🇧 **English:** Open any Testbook mock test analysis page, click **"⚡ Sync to Lakshya"** in your bookmarks bar, and your score, penalty calculation, and accuracy are stored automatically!
+- 🇮🇳 **বাংলা:** টেস্টবুক বা অন্য পোর্টালে মক টেস্টের রেজাল্ট পেইজে থাকা অবস্থায় ব্রাউজারের বুকমার্কস বারে রাখা **"⚡ Sync to Lakshya"** বোতামে ১টি ক্লিক করলেই আপনার প্রাপ্ত নম্বর, কাটঅফ ও নির্ভুলতা লক্ষ্য ট্র্যাকারে সেভ হয়ে যাবে।
+- 🇮🇳 **हिन्दी:** टेस्टबुक के रिजल्ट / एनालिसिस पेज पर रहते हुए बस अपने बुकमार्क बार में **"⚡ Sync to Lakshya"** पर क्लिक करें। आपका स्कोर, सही/गलत प्रश्न और एक्यूरेसी तुरंत लक्ष्य ट्रैकर में सिंक हो जाएगी।
+- 🇮🇳 **தமிழ்:** டெஸ்ட்புக் (Testbook) முடிவு பக்கத்தில் இருக்கும்போது உங்கள் உலாவி புக்மார்க் பாரில் உள்ள **"⚡ Sync to Lakshya"** பொத்தானை ஒருமுறை கிளிக் செய்தால் போதும், உங்கள் மதிப்பெண்கள் தானாகவே சேமிக்கப்படும்.
+
+#### 📌 Bookmarklet Code (Pre-configured)
+To create it manually in your browser, create a new bookmark, name it `⚡ Sync to Lakshya`, and set the URL to:
+```javascript
+javascript:(function(){const t=document.body.innerText;const isCGL=/ssc\s*cgl/i.test(t);const isCHSL=/ssc\s*chsl/i.test(t);const isJE_SSC=/ssc\s*je/i.test(t);const isRRB_JE=/rrb\s*je|junior\s*engineer/i.test(t);const isALP=/alp|assistant\s*loco/i.test(t);const isNTPC=/ntpc/i.test(t);const isWBPSC=/wbpsc|wbcs|miscellaneous/i.test(t);const isBanking=/ibps|sbi|po\s*prelim/i.test(t);const isGATE=/gate/i.test(t);const title=(document.querySelector('h1, [class*="testTitle"], [class*="test-title"]')?.innerText||document.title||'Testbook Mock').substring(0,50).trim();const scoreM=t.match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+)\s+Score/i)||t.match(/Score\s*[:=\-]?\s*(\d+(?:\.\d+)?)/i);const attM=t.match(/(\d+)\s*\/\s*(\d+)\s+Attempted/i)||t.match(/Attempted\s*[:=\-]?\s*(\d+)/i);const accM=t.match(/(\d+(?:\.\d+)?)\s*%\s+Accuracy/i);const cutoffM=t.match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)\s*Cutoff Gap/i);let exam_code='custom';let exam_name='Competitive Mock Test';let m=1.0;let p=0.3333;let totalM=100;let totalQ=100;let defaultCutoff=65;if(isCGL){exam_code='ssc-cgl';exam_name='SSC CGL (Tier-1)';m=2.0;p=0.50;totalM=200;totalQ=100;defaultCutoff=138;}else if(isCHSL){exam_code='ssc-chsl';exam_name='SSC CHSL (Tier-1)';m=2.0;p=0.50;totalM=200;totalQ=100;defaultCutoff=142;}else if(isJE_SSC){exam_code='ssc-je';exam_name='SSC JE Paper-1';m=1.0;p=0.25;totalM=200;totalQ=200;defaultCutoff=132;}else if(isRRB_JE){exam_code='rrb-je';exam_name='RRB JE (CBT-1)';m=1.0;p=0.3333;totalM=100;totalQ=100;defaultCutoff=68;}else if(isALP){exam_code='rrb-alp';exam_name='RRB ALP (CBT-1)';m=1.0;p=0.3333;totalM=75;totalQ=75;defaultCutoff=48;}else if(isNTPC){exam_code='rrb-ntpc';exam_name='RRB NTPC (CBT-1)';m=1.0;p=0.3333;totalM=100;totalQ=100;defaultCutoff=74;}else if(isWBPSC){exam_code='wbpsc-misc';exam_name='WBPSC Miscellaneous';m=2.0;p=0.6667;totalM=200;totalQ=100;defaultCutoff=125;}else if(isBanking){exam_code='ibps-po';exam_name='IBPS / SBI PO Prelims';m=1.0;p=0.25;totalM=100;totalQ=100;defaultCutoff=58;}else if(isGATE){exam_code='gate-eng';exam_name='GATE Engineering';m=1.0;p=0.3333;totalM=100;totalQ=65;defaultCutoff=35;}const score=scoreM?parseFloat(scoreM[1]):0;if(scoreM&&scoreM[2])totalM=parseFloat(scoreM[2]);const att=attM?parseInt(attM[1]):0;if(attM&&attM[2])totalQ=parseInt(attM[2]);const cutoff=cutoffM?parseFloat(cutoffM[2]||cutoffM[1]):defaultCutoff;const cor=Math.round((score+p*att)/(m+p));const wrg=Math.max(0,att-cor);fetch('http://<YOUR-SERVER-IP>:8856/api/mocks',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({exam_code:exam_code,exam_name:exam_name,test_title:title,provider:'Testbook',test_date:new Date().toISOString().split('T')[0],test_type:'full_mock',total_q:totalQ,total_marks:totalM,attempted:att,correct:cor,wrong:wrg,target_cutoff:cutoff,time_spent_min:60,marks_per_correct:m,penalty_per_wrong:p,notes:'Synced via 1-Click Bookmarklet from Testbook Analysis page.'})}).then(r=>r.json()).then(d=>{alert('🎯 Lakshya Tracker Sync Successful!\n\nExam: '+exam_name+'\nScore: '+score+' / '+totalM+'\nAttempted: '+att+' (Correct: '+cor+', Wrong: '+wrg+')\nAccuracy: '+(accM?accM[1]:'')+'%');}).catch(e=>alert('❌ Sync Error: '+e));})();
+```
+*(Tip: In the Lakshya web UI, open the **📖 Setup Guide** and simply drag the ready-to-use **⚡ Sync to Lakshya** button straight to your bookmarks bar — it will automatically detect and bind to your exact server address!)*
 
 ---
 
