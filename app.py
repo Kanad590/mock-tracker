@@ -25,14 +25,9 @@ STATIC_DIR = os.path.join(BASE_DIR, "static")
 UPLOADS_DIR = os.path.join(DATA_DIR, "uploads")
 DB_PATH = os.path.join(DATA_DIR, "marks_tracker.db")
 
-KANBOARD_URLS = [
-    os.environ.get("KANBOARD_URL", "http://172.17.0.1:1337/jsonrpc.php"),
-    "http://192.168.29.2:1337/jsonrpc.php",
-    "http://100.80.199.101:1337/jsonrpc.php",
-    "http://localhost:1337/jsonrpc.php"
-]
-KANBOARD_USER = os.environ.get("KANBOARD_USER", "ai")
-KANBOARD_TOKEN = os.environ.get("KANBOARD_TOKEN", "b5dbaae11e5b31d637b3b3a37b3f31263cec6b288477d1a093801717a7e9")
+KANBOARD_URL = os.environ.get("KANBOARD_URL", "").strip()
+KANBOARD_USER = os.environ.get("KANBOARD_USER", "ai").strip()
+KANBOARD_TOKEN = os.environ.get("KANBOARD_TOKEN", "").strip()
 KANBOARD_PROJECT_ID = int(os.environ.get("KANBOARD_PROJECT_ID", 4))
 
 os.makedirs(DATA_DIR, exist_ok=True)
@@ -73,6 +68,32 @@ def init_db():
     if "test_type" not in existing_mock_cols:
         cursor.execute("ALTER TABLE mock_tests ADD COLUMN test_type TEXT DEFAULT 'full_mock';")
 
+    # Seed comprehensive competitive exam presets if not already present
+    default_exams = [
+        ('rrb-je', 'RRB JE (CBT-1)', 100.0, 100, 1.0, 0.3333, 68.0),
+        ('rrb-je-cbt2-mech', 'RRB JE (CBT-2 Mechanical)', 150.0, 150, 1.0, 0.3333, 108.0),
+        ('rrb-alp', 'RRB ALP (CBT-1)', 75.0, 75, 1.0, 0.3333, 48.0),
+        ('rrb-ntpc', 'RRB NTPC (CBT-1)', 100.0, 100, 1.0, 0.3333, 74.0),
+        ('rrb-group-d', 'RRB Group D (CBT)', 100.0, 100, 1.0, 0.3333, 68.0),
+        ('ssc-cgl', 'SSC CGL (Tier-1)', 200.0, 100, 2.0, 0.50, 138.0),
+        ('ssc-chsl', 'SSC CHSL (Tier-1)', 200.0, 100, 2.0, 0.50, 142.0),
+        ('ssc-je', 'SSC JE Paper-1 (Mechanical/Tech)', 200.0, 200, 1.0, 0.25, 132.0),
+        ('ssc-mts', 'SSC MTS (CBT)', 270.0, 90, 3.0, 1.0, 115.0),
+        ('ibps-po', 'IBPS / SBI PO Prelims', 100.0, 100, 1.0, 0.25, 58.0),
+        ('sbi-clerk', 'SBI Clerk Prelims', 100.0, 100, 1.0, 0.25, 75.0),
+        ('upsc-pre', 'UPSC CSE Prelims (GS-1)', 200.0, 100, 2.0, 0.6667, 88.0),
+        ('wbpsc-misc', 'WBPSC Miscellaneous Prelims', 200.0, 100, 2.0, 0.6667, 125.0),
+        ('wbcs-pre', 'WBCS Executive Prelims', 200.0, 200, 1.0, 0.3333, 128.0),
+        ('gate-eng', 'GATE Engineering', 100.0, 65, 1.0, 0.3333, 35.0),
+        ('custom', 'Custom Competitive Exam', 100.0, 100, 1.0, 0.3333, 60.0)
+    ]
+    cursor.executemany(
+        """INSERT OR IGNORE INTO exams 
+        (code, name, default_total_marks, default_total_q, marks_per_correct, penalty_per_wrong, default_cutoff) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)""",
+        default_exams
+    )
+
     conn.commit()
     conn.close()
 
@@ -85,7 +106,10 @@ def get_db():
 
 
 def call_kanboard_rpc(method, params=None):
-    """Call Kanboard JSON-RPC with multi-endpoint failover and timeout."""
+    """Call Kanboard JSON-RPC with optional environment-based configuration."""
+    if not KANBOARD_URL or not KANBOARD_TOKEN:
+        return None
+
     auth_header = "Basic " + base64.b64encode(f"{KANBOARD_USER}:{KANBOARD_TOKEN}".encode("utf-8")).decode("utf-8")
     payload = json.dumps({
         "jsonrpc": "2.0",
@@ -94,28 +118,19 @@ def call_kanboard_rpc(method, params=None):
         "params": params or {}
     }).encode("utf-8")
 
-    seen = set()
-    urls = []
-    for u in KANBOARD_URLS:
-        if u and u not in seen:
-            seen.add(u)
-            urls.append(u)
-
-    for url in urls:
-        try:
-            req = urllib.request.Request(
-                url,
-                data=payload,
-                headers={"Content-Type": "application/json", "Authorization": auth_header}
-            )
-            with urllib.request.urlopen(req, timeout=2.5) as resp:
-                if resp.status == 200:
-                    data = json.loads(resp.read().decode("utf-8"))
-                    if "error" in data:
-                        continue
+    try:
+        req = urllib.request.Request(
+            KANBOARD_URL,
+            data=payload,
+            headers={"Content-Type": "application/json", "Authorization": auth_header}
+        )
+        with urllib.request.urlopen(req, timeout=2.5) as resp:
+            if resp.status == 200:
+                data = json.loads(resp.read().decode("utf-8"))
+                if "error" not in data:
                     return data.get("result")
-        except Exception:
-            continue
+    except Exception:
+        pass
     return None
 
 
@@ -284,7 +299,14 @@ def detect_exam_preset(title):
 
 
 def sync_kanboard_exams():
-    """Sync active exams being pursued from Kanboard Project #4."""
+    """Sync active exams being pursued from Kanboard Project #4 (Optional Integration)."""
+    if not KANBOARD_URL or not KANBOARD_TOKEN:
+        return {
+            "success": False,
+            "status": "unconfigured",
+            "message": "Kanboard is optional and currently unconfigured. Set KANBOARD_URL and KANBOARD_TOKEN in your environment or .env file to enable automatic sync, or manage exams manually anytime!"
+        }
+
     cols = call_kanboard_rpc("getColumns", {"project_id": KANBOARD_PROJECT_ID})
     if not cols:
         return {"success": False, "status": "offline", "message": "Kanboard is currently unreachable. You can continue managing exams manually."}

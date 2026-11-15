@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-  <title>🎯 Lakshya Mock & Marks Tracker | লক্ষ্য ট্র্যাকার — Smart Competitive Exam Analytics</title>
-  <meta name="description" content="Ultra-lightweight self-hosted Mock Test & Marks Tracker for Indian Competitive Exams (RRB JE, WBPSC, SSC, Banking, GATE). Negative marking calculation, subject-wise weak/strong point radar, mistake diary, and scorecard upload.">
-  <meta name="keywords" content="mock test tracker, marks tracker, rrb je, wbpsc miscellaneous, ssc cgl, exam analytics, negative marking calculator, error diary">
-  <meta name="author" content="Saman / Kanad">
+  <title>🎯 Lakshya Mock & Marks Tracker | লক্ষ্য ট্র্যাকার — Privacy-First Competitive Exam Analytics (RRB, SSC, Banking, GATE, State PSC)</title>
+  <meta name="description" content="Ultra-lightweight self-hosted Mock Test & Marks Analytics Engine for Indian Competitive Exams (Railways RRB JE/ALP/NTPC, SSC CGL/CHSL/JE, Banking IBPS/SBI, GATE, UPSC & State PSCs). Features automated negative marking, mistake diary, subject radar, and offline PWA.">
+  <meta name="keywords" content="mock test tracker, marks tracker, exam analytics, negative marking calculator, rrb je, rrb alp, rrb ntpc, ssc cgl, ssc chsl, ssc je, gate engineering, ibps po, sbi clerk, wbpsc miscellaneous, wbcs, mistake diary, testbook tracker, self-hosted, pwa, docker">
+  <meta name="author" content="Kanad590">
   <meta name="theme-color" content="#0F3D3E">
 
-  <link rel="canonical" href="http://192.168.29.2:8856/">
+  <link rel="canonical" href="https://github.com/Kanad590/mock-tracker">
   <link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs.txt">
   <!-- OpenGraph / Social Meta Tags -->
   <meta property="og:type" content="website">
@@ -18,7 +18,7 @@
   <meta property="og:image" content="/static/og_banner.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:url" content="http://192.168.29.2:8856/">
+  <meta property="og:url" content="https://github.com/Kanad590/mock-tracker">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
@@ -45,19 +45,31 @@
     "name": "Lakshya Mock & Marks Tracker",
     "alternateName": "লক্ষ্য ট্র্যাকার",
     "applicationCategory": "EducationalApplication",
-    "operatingSystem": "Linux, Web, Android, iOS, Windows",
-    "description": "A high-performance self-hosted analytics engine and mistake diary for competitive exam aspirants.",
+    "applicationSubCategory": "Exam Preparation & Performance Analytics",
+    "operatingSystem": "Linux, Web, Android, iOS, Windows, macOS",
+    "url": "https://github.com/Kanad590/mock-tracker",
+    "downloadUrl": "https://hub.docker.com/r/saman514/mock-tracker",
+    "softwareVersion": "2.0.0",
+    "author": {
+      "@type": "Person",
+      "name": "Kanad",
+      "url": "https://github.com/Kanad590"
+    },
+    "description": "Privacy-first, self-hosted mock test performance analytics engine and mistake diary for competitive exam aspirants (Railways RRB, SSC, Banking, GATE, UPSC, State PSCs).",
     "offers": {
       "@type": "Offer",
       "price": "0",
-      "priceCurrency": "INR"
+      "priceCurrency": "USD"
     },
     "featureList": [
-      "Negative marking math preset for RRB JE, WBPSC, SSC, Banking",
-      "Part-wise weak and strong point detection",
-      "Scorecard upload & scan",
-      "12 Indian Languages translation support",
-      "Offline SQLite persistence"
+      "Automated negative marking calculations (-0.33, -0.50, -0.66, custom)",
+      "Targeted exam presets for Railways RRB, SSC, Banking, GATE, State PSCs",
+      "Mistake classification diary (silly error, formula gap, concept gap, time pressure)",
+      "Subject & sectional mastery radar charts",
+      "Scorecard screenshot upload & OCR extraction",
+      "12 Indian & International languages i18n support",
+      "Offline SQLite persistence with zero cloud dependencies",
+      "Installable Progressive Web App (PWA) with instant mobile launching"
     ]
   }
   </script>
@@ -870,46 +882,78 @@
 
         <!-- Tab 2: Wi-Fi & Tailscale -->
         <div id="guideTabView_network" class="hidden space-y-4">
-          <!-- Home Wi-Fi -->
+          <!-- Detected Current URL -->
           <div class="p-4 rounded-2xl bg-teal-50/80 dark:bg-slate-800 border border-teal-200 dark:border-slate-700 space-y-2.5">
             <div class="flex items-center justify-between">
               <h4 class="font-extrabold text-midnight dark:text-teal-300 text-sm flex items-center gap-2">
-                <span>🏠</span> <span data-i18n="guide_net_home_title">At Home (Home Wi-Fi)</span>
+                <span>📍</span> <span data-i18n="guide_net_current_title">Current Detected Address</span>
               </h4>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200">Local LAN</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200">Active Origin</span>
             </div>
-            <p class="text-gray-700 dark:text-gray-300 text-xs" data-i18n="guide_net_home_desc">
-              When connected to your home Wi-Fi network, open directly at:
+            <p class="text-gray-700 dark:text-gray-300 text-xs" data-i18n="guide_net_current_desc">
+              Your browser is currently connected to this Lakshya instance at:
             </p>
             <div class="flex items-center justify-between gap-2 p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-teal-200/60 dark:border-slate-700">
-              <code class="font-mono text-xs text-midnight dark:text-teal-200 font-bold select-all">http://192.168.29.2:8856</code>
-              <button type="button" onclick="copyToClipboard('http://192.168.29.2:8856', this)" class="bg-teal-800 hover:bg-teal-700 text-white font-bold text-xs px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-xs transition-colors shrink-0">
+              <code id="currentDetectedUrl" class="font-mono text-xs text-midnight dark:text-teal-200 font-bold select-all break-all">http://localhost:8856</code>
+              <button type="button" onclick="copyDetectedUrl(this)" class="bg-teal-800 hover:bg-teal-700 text-white font-bold text-xs px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-xs transition-colors shrink-0">
                 <span data-i18n="btn_copy">📋 Copy Link</span>
               </button>
             </div>
           </div>
 
-          <!-- Outside / Tailscale -->
+          <!-- Home Wi-Fi & LAN -->
+          <div class="p-4 rounded-2xl bg-sky-50/80 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <h4 class="font-extrabold text-sky-950 dark:text-sky-300 text-sm flex items-center gap-2">
+                <span>🏠</span> <span data-i18n="guide_net_home_title">Connecting Phones on Home Wi-Fi (LAN)</span>
+              </h4>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-100 dark:bg-sky-900 text-sky-800 dark:text-sky-200">Local Network</span>
+            </div>
+            <p class="text-gray-700 dark:text-gray-300 text-xs leading-relaxed" data-i18n="guide_net_home_desc">
+              To open this tracker on your phone, tablet, or another family device connected to the same Wi-Fi router:
+            </p>
+            <div class="space-y-1.5 text-xs text-gray-700 dark:text-gray-300">
+              <div class="p-2 bg-white dark:bg-slate-900 rounded-lg border border-sky-100 dark:border-slate-800">
+                <strong class="text-sky-800 dark:text-sky-300">1. Find Your Host IP:</strong>
+                <span class="block mt-0.5 text-gray-600 dark:text-gray-400 font-mono text-[11px]">
+                  • Linux / Pi: <code class="bg-gray-100 dark:bg-slate-800 px-1 rounded">hostname -I</code><br>
+                  • Windows: <code class="bg-gray-100 dark:bg-slate-800 px-1 rounded">ipconfig</code> (IPv4 Address)<br>
+                  • macOS: System Settings &gt; Network &gt; Wi-Fi Details
+                </span>
+              </div>
+              <div class="p-2 bg-white dark:bg-slate-900 rounded-lg border border-sky-100 dark:border-slate-800">
+                <strong class="text-sky-800 dark:text-sky-300">2. Open on Phone:</strong>
+                <span class="block mt-0.5 text-gray-600 dark:text-gray-400">
+                  Type <code class="font-mono font-bold text-sky-700 dark:text-sky-300">http://&lt;HOST-IP&gt;:8856</code> into Chrome or Safari on your phone.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Outside / Remote Access -->
           <div class="p-4 rounded-2xl bg-indigo-50/80 dark:bg-slate-800 border border-indigo-200 dark:border-slate-700 space-y-3">
             <div class="flex items-center justify-between">
               <h4 class="font-extrabold text-indigo-950 dark:text-indigo-200 text-sm flex items-center gap-2">
-                <span>🚀</span> <span data-i18n="guide_net_remote_title">Outside / Travel (Mobile Data & Tailscale)</span>
+                <span>🚀</span> <span data-i18n="guide_net_remote_title">Outside Access & Travel (Zero Port Forwarding)</span>
               </h4>
               <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200">Remote VPN</span>
             </div>
-            <p class="text-gray-700 dark:text-gray-300 text-xs" data-i18n="guide_net_remote_desc">
-              When away from home, connect securely using Tailscale VPN (100% private, zero port-forwarding):
+            <p class="text-gray-700 dark:text-gray-300 text-xs leading-relaxed" data-i18n="guide_net_remote_desc">
+              When away from home, connect securely using either Tailscale VPN or a secure reverse proxy:
             </p>
-            <ul class="space-y-1.5 text-xs text-gray-700 dark:text-gray-300 list-disc list-inside">
-              <li data-i18n="guide_net_step1">Step 1: Install the free 'Tailscale' app from Google Play Store or iOS App Store.</li>
-              <li data-i18n="guide_net_step2">Step 2: Sign in with your registered Google account and toggle the connection switch ON.</li>
-              <li data-i18n="guide_net_step3">Step 3: Open your mobile browser and go to:</li>
-            </ul>
-            <div class="flex items-center justify-between gap-2 p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-indigo-200/60 dark:border-slate-700">
-              <code class="font-mono text-xs text-indigo-900 dark:text-indigo-200 font-bold select-all">http://100.80.199.101:8856</code>
-              <button type="button" onclick="copyToClipboard('http://100.80.199.101:8856', this)" class="bg-indigo-700 hover:bg-indigo-600 text-white font-bold text-xs px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-xs transition-colors shrink-0">
-                <span data-i18n="btn_copy">📋 Copy Link</span>
-              </button>
+            <div class="space-y-2 text-xs text-gray-700 dark:text-gray-300">
+              <div class="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-indigo-100 dark:border-slate-800 space-y-1">
+                <strong class="text-indigo-900 dark:text-indigo-300">Option A: Tailscale Mesh VPN (Recommended)</strong>
+                <p class="text-gray-600 dark:text-gray-400">
+                  Install free Tailscale on your host and phone. Open your host's 100.x.y.z IP or MagicDNS hostname (e.g. <code class="font-mono text-indigo-700 dark:text-indigo-300">http://my-host:8856</code>) anywhere on 4G/5G mobile data with zero port exposure.
+                </p>
+              </div>
+              <div class="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-indigo-100 dark:border-slate-800 space-y-1">
+                <strong class="text-indigo-900 dark:text-indigo-300">Option B: Cloudflare Tunnel / HTTPS Domain</strong>
+                <p class="text-gray-600 dark:text-gray-400">
+                  Expose via Cloudflare Tunnel or Caddy/Nginx reverse proxy with a free Let's Encrypt SSL certificate for public domain access.
+                </p>
+              </div>
             </div>
           </div>
         </div>

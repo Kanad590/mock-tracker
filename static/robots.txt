@@ -3,4 +3,4 @@ Allow: /
 Disallow: /api/upload
 Disallow: /api/export
 
-Sitemap: http://192.168.29.2:8856/sitemap.xml
+Sitemap: /sitemap.xml

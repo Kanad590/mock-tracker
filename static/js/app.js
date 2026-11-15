@@ -1025,12 +1025,25 @@ function handleHashNavigation() {
 
 window.addEventListener("hashchange", handleHashNavigation);
 document.addEventListener("DOMContentLoaded", () => {
+  updateDynamicUrls();
   setTimeout(handleHashNavigation, 150);
 });
 
 function openSetupGuideModal() {
+  updateDynamicUrls();
   openModal("setupGuideModal");
   switchGuideTab("mobile");
+}
+
+function updateDynamicUrls() {
+  const origin = window.location.origin || (window.location.protocol + "//" + window.location.host);
+  const el = document.getElementById("currentDetectedUrl");
+  if (el) el.textContent = origin;
+}
+
+function copyDetectedUrl(btnElement) {
+  const origin = window.location.origin || (window.location.protocol + "//" + window.location.host);
+  copyToClipboard(origin, btnElement);
 }
 
 function switchGuideTab(tabId) {

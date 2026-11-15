@@ -1,15 +1,25 @@
 services:
   mock-tracker:
+    image: saman514/mock-tracker:latest
     build: .
     container_name: mock-tracker
-    restart: always
+    restart: unless-stopped
     ports:
-      - "8856:8856"
+      - "${PORT:-8856}:8856"
     volumes:
-      - ./data:/app/data
-      - ./static:/app/static
-      - ./app.py:/app/app.py
+      - mock_tracker_data:/app/data
+    environment:
+      - PORT=8856
+      # Optional: Kanboard Task & Syllabus Sync
+      # - KANBOARD_URL=http://your-kanboard:80/jsonrpc.php
+      # - KANBOARD_USER=ai
+      # - KANBOARD_TOKEN=your_kanboard_api_token
+      # - KANBOARD_PROJECT_ID=4
     deploy:
       resources:
         limits:
-          memory: 48M
+          memory: 64M
+
+volumes:
+  mock_tracker_data:
+    name: mock_tracker_data

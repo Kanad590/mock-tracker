@@ -12,9 +12,9 @@
 - SQLite database persistence with zero cloud dependencies
 
 ## API Endpoints
-- [Web Dashboard](http://192.168.29.2:8856/): Interactive analytics dashboard
-- [Health Check](http://192.168.29.2:8856/api/health): Application heartbeat & timestamp
-- [Exam List](http://192.168.29.2:8856/api/exams): Active pursued exams & syllabus configurations
-- [Mock History](http://192.168.29.2:8856/api/mocks): Historical mock tests, sectional scores & mistakes
-- [Aggregated Stats](http://192.168.29.2:8856/api/stats): Trend scores, subject strengths & weak areas
-- [JSON Backup](http://192.168.29.2:8856/api/export): Complete database export & backup
+- [Web Dashboard](/): Interactive analytics dashboard
+- [Health Check](/api/health): Application heartbeat & timestamp
+- [Exam List](/api/exams): Active pursued exams & syllabus configurations
+- [Mock History](/api/mocks): Historical mock tests, sectional scores & mistakes
+- [Aggregated Stats](/api/stats): Trend scores, subject strengths & weak areas
+- [JSON Backup](/api/export): Complete database export & backup

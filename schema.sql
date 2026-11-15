@@ -19,12 +19,20 @@ CREATE TABLE IF NOT EXISTS exams (
 
 INSERT OR IGNORE INTO exams (code, name, default_total_marks, default_total_q, marks_per_correct, penalty_per_wrong, default_cutoff) VALUES
 ('rrb-je', 'RRB JE (CBT-1)', 100.0, 100, 1.0, 0.3333, 68.0),
+('rrb-je-cbt2-mech', 'RRB JE (CBT-2 Mechanical)', 150.0, 150, 1.0, 0.3333, 108.0),
 ('rrb-alp', 'RRB ALP (CBT-1)', 75.0, 75, 1.0, 0.3333, 48.0),
-('wbpsc-misc', 'WBPSC Miscellaneous Prelims', 200.0, 100, 2.0, 0.6667, 125.0),
+('rrb-ntpc', 'RRB NTPC (CBT-1)', 100.0, 100, 1.0, 0.3333, 74.0),
+('rrb-group-d', 'RRB Group D (CBT)', 100.0, 100, 1.0, 0.3333, 68.0),
 ('ssc-cgl', 'SSC CGL (Tier-1)', 200.0, 100, 2.0, 0.50, 138.0),
 ('ssc-chsl', 'SSC CHSL (Tier-1)', 200.0, 100, 2.0, 0.50, 142.0),
-('upsc-pre', 'UPSC CSE Prelims (GS-1)', 200.0, 100, 2.0, 0.6667, 88.0),
+('ssc-je', 'SSC JE Paper-1 (Mechanical/Tech)', 200.0, 200, 1.0, 0.25, 132.0),
+('ssc-mts', 'SSC MTS (CBT)', 270.0, 90, 3.0, 1.0, 115.0),
 ('ibps-po', 'IBPS / SBI PO Prelims', 100.0, 100, 1.0, 0.25, 58.0),
+('sbi-clerk', 'SBI Clerk Prelims', 100.0, 100, 1.0, 0.25, 75.0),
+('upsc-pre', 'UPSC CSE Prelims (GS-1)', 200.0, 100, 2.0, 0.6667, 88.0),
+('wbpsc-misc', 'WBPSC Miscellaneous Prelims', 200.0, 100, 2.0, 0.6667, 125.0),
+('wbcs-pre', 'WBCS Executive Prelims', 200.0, 200, 1.0, 0.3333, 128.0),
+('gate-eng', 'GATE Engineering', 100.0, 65, 1.0, 0.3333, 35.0),
 ('custom', 'Custom Competitive Exam', 100.0, 100, 1.0, 0.3333, 60.0);
 
 CREATE TABLE IF NOT EXISTS mock_tests (
