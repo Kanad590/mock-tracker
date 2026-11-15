@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🎯 Lakshya Mock & Marks Tracker | লক্ষ্য ট্র্যাকার
+# 🎯 Lakshya Mock & Marks Tracker | লক্ষ্য ট্র্যাকার | लक्ष्य ट्रैकर | லக்ஷ்யா
 ### The Privacy-First, Self-Hosted Exam Performance & Marks Analytics Engine
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/saman514/mock-tracker?logo=docker&logoColor=white&color=0F3D3E)](https://hub.docker.com/r/saman514/mock-tracker)
@@ -16,6 +16,40 @@ Track mock scores, calculate exact negative marking penalties, diagnose subject-
 [Quick Start](#-quick-start-in-60-seconds) • [Supported Exams](#-supported-exam-domains) • [Mobile & Network Setup](#-device-and-network-access-guide) • [Docker Deployment](#-docker-deployment) • [Environment Variables](#-configuration--environment-variables)
 
 </div>
+
+---
+
+## 🌐 Multilingual Overview | বহুভাষিক বিবরণ | बहुभाषी विवरण | பன்மொழி கண்ணோட்டம்
+
+<details open>
+<summary><b>🇮🇳 বাংলা (Bengali Description)</b></summary>
+
+> **লক্ষ্য ট্র্যাকার (Lakshya Marks Tracker)** হলো ভারতীয় প্রতিযোগিতামূলক পরীক্ষার (রেলওয়ে RRB JE/ALP/NTPC, এসএসসি SSC CGL/CHSL/JE, ব্যাংকিং IBPS/SBI, গেট GATE এবং রাজ্য পিএসসি) জন্য একটি সম্পূর্ণ নিজস্ব ও ফ্রি মক টেস্ট ও স্কোর অ্যানালিটিক্স ইঞ্জিন।
+> 
+> - **মূল সুবিধা:** স্বয়ংক্রিয় নেগেটিভ মার্কিং হিসাব, ভুলের প্যাটার্ন ডায়েরি (সিলি মিসটেক বনাম কনসেপ্ট গ্যাপ), দুর্বল বিষয় শনাক্ত করার রাডার চার্ট এবং ১০০% অফলাইন পিডব্লিউএ (PWA) অ্যাপ সুবিধা।
+> - **যেকোনো ডিভাইসে:** আপনার রাস্পবেরি পাই, হোমসার্ভার বা সাধারণ ল্যাপটপে ১টি ডকার কমান্ডেই চালু করা যায়।
+
+</details>
+
+<details open>
+<summary><b>🇮🇳 हिन्दी (Hindi Description)</b></summary>
+
+> **लक्ष्य ट्रैकर (Lakshya Marks Tracker)** भारतीय प्रतियोगी परीक्षाओं (रेलवे RRB JE/ALP/NTPC, एसएससी SSC CGL/CHSL/JE, बैंकिंग IBPS/SBI, गेट GATE, यूपीएससी एवं राज्य पीएससी) के लिए एक प्राइवेसी-फर्स्ट, सेल्फ-होस्टेड और पूरी तरह मुफ़्त मॉक टेस्ट और मार्क्स एनालिटिक्स इंजन है।
+> 
+> - **प्रमुख विशेषताएं:** ऑटोमेटेड नेगेटिव मार्किंग कैलकुलेशन, गलतियों की डायरी (सिली मिस्टेक बनाम कॉन्सेप्ट गैप), सब्जेक्ट मास्टरी रडार चार्ट, और कमजोर इंटरनेट में भी 100ms में खुलने वाला ऑफलाइन PWA ऐप।
+> - **सरल सेटअप:** किसी भी कंप्यूटर, रास्पबेरी पाई या होम सर्वर पर सिर्फ एक डॉकर (Docker) कमांड से तुरंत शुरू करें।
+
+</details>
+
+<details open>
+<summary><b>🇮🇳 தமிழ் (Tamil Description)</b></summary>
+
+> **லக்ஷ்யா மார்க்ஸ் டிராக்கர் (Lakshya Marks Tracker)** என்பது இந்திய போட்டித் தேர்வுகளுக்கான (ரயில்வே RRB JE/ALP/NTPC, SSC CGL/CHSL/JE, வங்கி தேர்வுகள் IBPS/SBI, GATE மற்றும் TNPSC / மாநில PSC) பிரைவசி-சார்ந்த, சுய-ஹோஸ்டிங் மற்றும் முற்றிலும் இலவச மாதிரி தேர்வு பகுப்பாய்வு தளமாகும்.
+> 
+> - **முக்கிய அம்சங்கள்:** துல்லியமான நெகட்டிவ் மார்க் கணக்கீடு (-0.33, -0.25, -0.50), தவறு வகைப்பாடு டைரி (கவனக்குறைவு தவறு vs கருத்து இடைவெளி), பலவீனமான பாடங்களை கண்டறியும் ரேடார் விளக்கப்படம் மற்றும் ஆஃப்லைன் PWA மொபைல் வசதி.
+> - **எளிய நிறுவல்:** உங்கள் சொந்த கணினி, ராஸ்பெர்ரி பை அல்லது ஹோம் சர்வரில் ஒரே ஒரு டாக்கர் (Docker) கட்டளை மூலம் உடனடியாக இயக்கலாம்.
+
+</details>
 
 ---
 
