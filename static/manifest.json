@@ -1,0 +1,54 @@
+{
+  "name": "Lakshya Marks Tracker | লক্ষ্য ট্র্যাকার",
+  "short_name": "Lakshya",
+  "description": "Smart Competitive Exam Mock & Marks Analytics Engine for RRB JE, WBPSC, SSC, Banking & UPSC",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#FAF8F4",
+  "theme_color": "#0F3D3E",
+  "categories": ["education", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/static/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/static/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Record Mock Test",
+      "short_name": "Add Mock",
+      "description": "Log new mock test score and errors",
+      "url": "/#new-mock",
+      "icons": [{ "src": "/static/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Analytics & Radar",
+      "short_name": "Analytics",
+      "description": "View score trend & weak point diagnosis",
+      "url": "/#analytics",
+      "icons": [{ "src": "/static/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

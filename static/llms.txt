@@ -1,0 +1,20 @@
+# Lakshya Mock & Marks Tracker
+
+> Ultra-lightweight self-hosted mock test score tracker and performance analytics engine for Indian competitive exams (RRB JE, WBPSC, SSC CGL, Banking, GATE).
+
+## Core Capabilities
+- Automated negative marking calculations (-0.33, -0.50, -0.66, custom)
+- 12 major Indian languages + English i18n support
+- Part-wise weak point and strong point visual radar/bar analytics
+- Mistake diary with category breakdown (silly error, concept gap, time pressure)
+- 1-Click universal bookmarklet & clipboard screenshot OCR
+- Kanboard Project #4 sync and offline manual exam management
+- SQLite database persistence with zero cloud dependencies
+
+## API Endpoints
+- [Web Dashboard](http://192.168.29.2:8856/): Interactive analytics dashboard
+- [Health Check](http://192.168.29.2:8856/api/health): Application heartbeat & timestamp
+- [Exam List](http://192.168.29.2:8856/api/exams): Active pursued exams & syllabus configurations
+- [Mock History](http://192.168.29.2:8856/api/mocks): Historical mock tests, sectional scores & mistakes
+- [Aggregated Stats](http://192.168.29.2:8856/api/stats): Trend scores, subject strengths & weak areas
+- [JSON Backup](http://192.168.29.2:8856/api/export): Complete database export & backup

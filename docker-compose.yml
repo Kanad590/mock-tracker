@@ -1,0 +1,15 @@
+services:
+  mock-tracker:
+    build: .
+    container_name: mock-tracker
+    restart: always
+    ports:
+      - "8856:8856"
+    volumes:
+      - ./data:/app/data
+      - ./static:/app/static
+      - ./app.py:/app/app.py
+    deploy:
+      resources:
+        limits:
+          memory: 48M

@@ -1,0 +1,15 @@
+# Database & User Uploads (Strictly private personal data)
+data/
+*.db
+*.sqlite3
+uploads/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment & OS
+.env
+.DS_Store
+*.log

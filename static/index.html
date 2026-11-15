@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>🎯 Lakshya Mock & Marks Tracker | লক্ষ্য ট্র্যাকার — Smart Competitive Exam Analytics</title>
+  <meta name="description" content="Ultra-lightweight self-hosted Mock Test & Marks Tracker for Indian Competitive Exams (RRB JE, WBPSC, SSC, Banking, GATE). Negative marking calculation, subject-wise weak/strong point radar, mistake diary, and scorecard upload.">
+  <meta name="keywords" content="mock test tracker, marks tracker, rrb je, wbpsc miscellaneous, ssc cgl, exam analytics, negative marking calculator, error diary">
+  <meta name="author" content="Saman / Kanad">
+  <meta name="theme-color" content="#0F3D3E">
+
+  <link rel="canonical" href="http://192.168.29.2:8856/">
+  <link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs.txt">
+  <!-- OpenGraph / Social Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="🎯 Lakshya Mock & Marks Tracker — Smart Exam Analytics">
+  <meta property="og:description" content="Track competitive exam marks, calculate negative penalties, analyze subject weak points, and upload scorecards with zero latency.">
+  <meta property="og:image" content="/static/og_banner.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="http://192.168.29.2:8856/">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="🎯 Lakshya Mock & Marks Tracker">
+  <meta name="twitter:description" content="Comprehensive mock test score tracker with 12 Indian languages, weak area detection, and mistake diary.">
+  <meta name="twitter:image" content="/static/og_banner.png">
+
+  <!-- PWA Manifest & Custom Vector Favicon -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="/static/icon-192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/icon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/icon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <link rel="shortcut icon" href="/static/favicon.ico">
+  <meta name="msapplication-TileImage" content="/static/icon-512.png">
+  <meta name="msapplication-TileColor" content="#0F3D3E">
+
+  <!-- JSON-LD Structured Data Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Lakshya Mock & Marks Tracker",
+    "alternateName": "লক্ষ্য ট্র্যাকার",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Linux, Web, Android, iOS, Windows",
+    "description": "A high-performance self-hosted analytics engine and mistake diary for competitive exam aspirants.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    },
+    "featureList": [
+      "Negative marking math preset for RRB JE, WBPSC, SSC, Banking",
+      "Part-wise weak and strong point detection",
+      "Scorecard upload & scan",
+      "12 Indian Languages translation support",
+      "Offline SQLite persistence"
+    ]
+  }
+  </script>
+
+  <!-- Google Fonts & Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            midnight: '#0F3D3E',
+            gold: '#C59B27',
+            ivory: '#FAF8F4',
+            sage: '#2E6F5E',
+            terracotta: '#B84A39',
+            charcoal: '#222831'
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      --sat: env(safe-area-inset-top, 0px);
+      --sab: env(safe-area-inset-bottom, 0px);
+    }
+    html, body {
+      overflow-x: hidden;
+      max-width: 100vw;
+    }
+    body {
+      background-color: #FAF8F4;
+      color: #222831;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    .dark body {
+      background-color: #0d131f;
+      color: #f1f5f9;
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, #0F3D3E 0%, #174b4c 100%);
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased transition-colors duration-200">
+
+  <!-- Accessibility Skip Link -->
+  <a href="#mainContent" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-gold text-midnight px-3 py-1.5 rounded-md font-bold z-50">Skip to content</a>
+
+  <!-- Top Navigation Bar -->
+  <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-200/80 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+        <img src="/static/favicon.svg" alt="Lakshya Logo" class="w-8 h-8 sm:w-10 sm:h-10 object-contain drop-shadow-md rounded-xl select-none shrink-0" />
+        <div class="min-w-0">
+          <h1 class="text-sm sm:text-base md:text-lg font-extrabold text-midnight dark:text-teal-300 leading-tight truncate">
+            <span data-i18n="app_title">Lakshya Marks Tracker</span>
+          </h1>
+          <p class="text-[11px] text-gray-500 dark:text-gray-400 hidden sm:block font-medium truncate" data-i18n="app_subtitle">
+            Smart Competitive Exam Analytics & Error Diary
+          </p>
+        </div>
+      </div>
+
+      <!-- Action Controls -->
+      <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+        <!-- Language Selector -->
+        <div class="relative">
+          <label for="langSelector" class="sr-only">Choose Language</label>
+          <select id="langSelector" onchange="setLanguage(this.value)" class="text-xs sm:text-sm font-semibold bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200 py-1.5 px-2 sm:px-2.5 rounded-lg border border-gray-200 dark:border-slate-700 cursor-pointer hover:border-gold transition-colors max-w-[105px] sm:max-w-none truncate">
+            <option value="en">🇬🇧 English</option>
+            <option value="bn">🇮🇳 বাংলা (Bengali)</option>
+            <option value="hi">🇮🇳 हिन्दी (Hindi)</option>
+            <option value="ta">🇮🇳 தமிழ் (Tamil)</option>
+            <option value="te">🇮🇳 తెలుగు (Telugu)</option>
+            <option value="mr">🇮🇳 मराठी (Marathi)</option>
+            <option value="gu">🇮🇳 ગુજરાતી (Gujarati)</option>
+            <option value="kn">🇮🇳 ಕನ್ನಡ (Kannada)</option>
+            <option value="ml">🇮🇳 മലയാളം (Malayalam)</option>
+            <option value="pa">🇮🇳 ਪੰਜਾਬੀ (Punjabi)</option>
+            <option value="or">🇮🇳 ଓଡ଼ିଆ (Odia)</option>
+            <option value="as">🇮🇳 অসমীয়া (Assamese)</option>
+          </select>
+        </div>
+
+        <!-- Setup Guide Button (Visible on both mobile & desktop) -->
+        <button onclick="openSetupGuideModal()" class="bg-amber-100/80 hover:bg-amber-200 dark:bg-amber-950/60 dark:hover:bg-amber-900 text-amber-900 dark:text-amber-200 border border-amber-300 dark:border-amber-700/70 font-bold text-xs px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer min-h-[36px]" title="Setup & Browser Guide (নির্দেশিকা)">
+          <span class="text-sm">📖</span>
+          <span class="hidden md:inline" data-i18n="nav_guide">Setup Guide</span>
+        </button>
+
+        <!-- Desktop Action Controls (hidden on mobile to prevent overflow) -->
+        <div class="hidden sm:flex items-center gap-1.5 sm:gap-2">
+          <!-- Install PWA Button -->
+          <button id="btnInstallPwa" onclick="installPWA()" class="hidden bg-gold hover:bg-gold-light text-slate-900 border border-gold-dark font-extrabold text-xs px-2.5 sm:px-3 py-2 rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer" title="Install Lakshya as Native App">
+            <span class="text-sm inline-block">📲</span>
+            <span class="hidden lg:inline font-bold">Install App</span>
+          </button>
+
+          <!-- Kanboard Sync Button -->
+          <button id="btnSyncKanboard" onclick="syncKanboard()" class="bg-teal-900/60 hover:bg-teal-800 text-teal-100 border border-teal-700/60 font-bold text-xs px-2.5 sm:px-3 py-2 rounded-xl shadow-xs transition-all flex items-center gap-1.5" title="Sync Active Pursued Exams from Kanboard">
+            <span id="syncKanboardIcon" class="text-sm inline-block">🔄</span>
+            <span class="hidden lg:inline" data-i18n="btn_sync_kanboard">Sync Kanboard</span>
+          </button>
+
+          <!-- Manage Exams Button -->
+          <button onclick="openExamManager()" class="bg-gray-100 dark:bg-slate-800 hover:bg-gold/20 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-slate-700 font-bold text-xs px-2.5 sm:px-3 py-2 rounded-xl shadow-xs transition-all flex items-center gap-1.5" title="Manage Pursued & Custom Exams">
+            <span class="text-sm">🎯</span>
+            <span class="hidden lg:inline" data-i18n="btn_manage_exams">Manage Exams</span>
+          </button>
+
+          <!-- Backup Button -->
+          <button onclick="exportBackup()" class="p-2 text-gray-500 hover:text-teal-600 dark:text-gray-400 rounded-lg bg-gray-100 dark:bg-slate-800 text-sm hidden md:block" aria-label="Export Data" title="Export JSON Backup">
+            💾
+          </button>
+
+          <!-- Log Mock Button -->
+          <button onclick="openModal('mockFormModal')" class="bg-midnight hover:bg-teal-900 text-white font-bold text-xs sm:text-sm px-3.5 py-2 rounded-xl shadow-sm hover:shadow transition-all flex items-center gap-1.5">
+            <span>➕</span>
+            <span data-i18n="nav_add_mock">Log Mock</span>
+          </button>
+        </div>
+
+        <!-- Dark/Light Mode Toggle -->
+        <button id="themeToggleBtn" onclick="document.documentElement.classList.toggle('dark')" class="p-2 text-gray-500 hover:text-gold dark:text-gray-400 rounded-lg bg-gray-100 dark:bg-slate-800 text-sm min-h-[36px] min-w-[36px] flex items-center justify-center" aria-label="Toggle Dark Mode" title="Toggle Theme">
+          🌓
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main id="mainContent" class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-6 pb-28 sm:pb-10 space-y-5 sm:space-y-6">
+
+    <!-- Executive Hero Summary Banner (3-Card "At a Glance") -->
+    <section aria-label="Executive Summary" class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+      <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xs border border-gray-200/80 dark:border-slate-700/80 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-900/40 text-midnight dark:text-teal-300 flex items-center justify-center text-xl font-bold">
+          📝
+        </div>
+        <div>
+          <div class="text-xs font-semibold text-gray-500 dark:text-gray-400" data-i18n="stat_total_mocks">Total Mocks</div>
+          <div id="statTotalMocks" class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">0</div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xs border border-gray-200/80 dark:border-slate-700/80 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-900/40 text-gold flex items-center justify-center text-xl font-bold">
+          🎯
+        </div>
+        <div>
+          <div class="text-xs font-semibold text-gray-500 dark:text-gray-400" data-i18n="stat_avg_score">Average Score</div>
+          <div id="statAvgScore" class="text-xl sm:text-2xl font-black text-midnight dark:text-teal-200">0</div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xs border border-gray-200/80 dark:border-slate-700/80 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/40 text-emerald-600 flex items-center justify-center text-xl font-bold">
+          🏆
+        </div>
+        <div>
+          <div class="text-xs font-semibold text-gray-500 dark:text-gray-400" data-i18n="stat_highest_score">Best Score</div>
+          <div id="statHighestScore" class="text-xl sm:text-2xl font-black text-emerald-600 dark:text-emerald-400">0</div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xs border border-gray-200/80 dark:border-slate-700/80 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600 flex items-center justify-center text-xl font-bold">
+          ⚡
+        </div>
+        <div>
+          <div class="text-xs font-semibold text-gray-500 dark:text-gray-400" data-i18n="stat_avg_accuracy">Overall Accuracy</div>
+          <div id="statAvgAccuracy" class="text-xl sm:text-2xl font-black text-indigo-600 dark:text-indigo-400">0%</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visual Analytics: Trend Line & Subject Mastery Radar -->
+    <section aria-label="Visual Analytics" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- Score Trend Line Chart -->
+      <div class="lg:col-span-8 bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-xs border border-gray-200/80 dark:border-slate-700/80 flex flex-col justify-between">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-4">
+          <h2 class="text-sm md:text-base font-extrabold text-midnight dark:text-teal-300 flex items-center gap-2">
+            <span data-i18n="chart_score_trend">📈 Score Progression vs Target Cutoff</span>
+          </h2>
+          <!-- Filter Exam Dropdown & Quick Manage Button -->
+          <div class="flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
+            <select id="filterExamSelect" onchange="refreshDashboard()" class="w-full sm:w-auto text-xs py-1.5 px-2.5 rounded-lg border border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-900 text-gray-700 dark:text-gray-200">
+              <option value="">All Exams</option>
+            </select>
+            <button onclick="openExamManager()" class="text-xs p-1.5 rounded-lg bg-gray-100 hover:bg-gold/20 dark:bg-slate-700 text-gold dark:text-teal-300 font-bold shrink-0 min-h-[36px] min-w-[36px] flex items-center justify-center" title="Manage Exams / পরীক্ষা পরিচালনা">
+              ⚙️
+            </button>
+          </div>
+        </div>
+        <div class="relative w-full h-64 sm:h-72">
+          <canvas id="scoreTrendCanvas" aria-label="Score trend chart" role="img"></canvas>
+        </div>
+      </div>
+
+      <!-- Subject Mastery Radar Chart -->
+      <div class="lg:col-span-4 bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-xs border border-gray-200/80 dark:border-slate-700/80 flex flex-col justify-between">
+        <div class="mb-3">
+          <h2 class="text-sm md:text-base font-extrabold text-midnight dark:text-teal-300" data-i18n="chart_radar_mastery">
+            🎯 Subject Mastery Radar
+          </h2>
+          <p class="text-xs text-gray-500 dark:text-gray-400">Sectional accuracy balance across subjects</p>
+        </div>
+        <div class="relative w-full h-64 sm:h-72 flex items-center justify-center">
+          <canvas id="radarMasteryCanvas" aria-label="Subject mastery radar chart" role="img"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part-wise Weak & Strong Points Breakdown & Mistake Donut -->
+    <section aria-label="Weak & Strong Point Diagnostic" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- Sectional Accuracy & Strength Identification -->
+      <div class="lg:col-span-7 bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-xs border border-gray-200/80 dark:border-slate-700/80 space-y-4">
+        <div>
+          <h2 class="text-sm md:text-base font-extrabold text-midnight dark:text-teal-300 flex items-center gap-2">
+            <span data-i18n="chart_weak_strong">⚡ Sectional Strength & Weakness Breakdown</span>
+          </h2>
+          <p class="text-xs text-gray-500 dark:text-gray-400">Real-time identification of weak chapters and high-accuracy mastery</p>
+        </div>
+
+        <!-- Sectional Bar Chart -->
+        <div class="relative w-full h-44">
+          <canvas id="sectionalBarCanvas" aria-label="Sectional accuracy bar chart" role="img"></canvas>
+        </div>
+
+        <!-- Weak vs Strong Badges Split -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+          <!-- Weak Areas -->
+          <div class="space-y-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-rose-800 dark:text-rose-300 flex items-center gap-1.5">
+              <span>🔴</span> <span data-i18n="stat_weakest_subj">Critical Weak Areas</span>
+            </h3>
+            <div id="weakAreasList" class="space-y-2">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Strong Areas -->
+          <div class="space-y-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5">
+              <span>🟢</span> <span data-i18n="stat_strongest_subj">Strong Mastery Areas</span>
+            </h3>
+            <div id="strongAreasList" class="space-y-2">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mistake Analysis Donut & Quick Upload Banner -->
+      <div class="lg:col-span-5 flex flex-col gap-6">
+        <!-- Mistake Donut -->
+        <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-xs border border-gray-200/80 dark:border-slate-700/80 flex-1">
+          <h2 class="text-sm md:text-base font-extrabold text-midnight dark:text-teal-300 mb-1" data-i18n="chart_mistakes">
+            🚨 Mistake Distribution Analysis
+          </h2>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">Categorization of negative marks and wrong answers</p>
+          <div class="relative w-full h-52 flex items-center justify-center">
+            <canvas id="mistakeDonutCanvas" aria-label="Mistake distribution chart" role="img"></canvas>
+          </div>
+        </div>
+
+        <!-- Scorecard Quick Upload CTA Box -->
+        <div class="hero-gradient p-5 rounded-2xl text-white shadow-md flex items-center justify-between">
+          <div>
+            <div class="font-extrabold text-sm sm:text-base flex items-center gap-2">
+              <span>📷</span> <span data-i18n="upload_modal_title">Scan & Upload Scorecard</span>
+            </div>
+            <p class="text-xs text-teal-100/90 mt-1" data-i18n="upload_tip">
+              Upload screenshot to auto-extract marks
+            </p>
+          </div>
+          <button onclick="openModal('uploadModal')" class="bg-gold hover:bg-yellow-500 text-midnight font-extrabold text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow-sm transition-transform active:scale-95 shrink-0">
+            Upload
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Mocks Data Table & Mobile Cards -->
+    <section aria-label="Test History Table" class="bg-white dark:bg-slate-800 rounded-2xl shadow-xs border border-gray-200/80 dark:border-slate-700/80 overflow-hidden">
+      <div class="p-4 sm:p-5 border-b border-gray-100 dark:border-slate-700/80 flex items-center justify-between">
+        <h2 class="text-sm sm:text-base font-extrabold text-midnight dark:text-teal-300 flex items-center gap-2">
+          <span data-i18n="table_recent_tests">📝 Recent Mock Tests History</span>
+        </h2>
+        <button onclick="openModal('mockFormModal')" class="sm:hidden text-xs bg-midnight hover:bg-teal-900 text-white font-extrabold px-3 py-1.5 rounded-xl shadow-xs flex items-center gap-1 active:scale-95 transition-transform" aria-label="Log Mock">
+          <span>➕</span> <span data-i18n="nav_add_mock">Log Mock</span>
+        </button>
+      </div>
+
+      <!-- Desktop Table View (hidden on mobile) -->
+      <div class="hidden md:block overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-gray-50 dark:bg-slate-800/80 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-slate-700">
+              <th class="p-3.5" data-i18n="col_date">Date</th>
+              <th class="p-3.5" data-i18n="col_exam">Exam</th>
+              <th class="p-3.5" data-i18n="col_test">Mock Title</th>
+              <th class="p-3.5" data-i18n="col_score">Score / Total</th>
+              <th class="p-3.5" data-i18n="col_accuracy">Accuracy</th>
+              <th class="p-3.5" data-i18n="col_status">Status</th>
+              <th class="p-3.5 text-right" data-i18n="col_actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="mocksTableBody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mobile Cards View (shown on mobile) -->
+      <div id="mocksCardsContainer" class="block md:hidden divide-y divide-gray-100 dark:divide-slate-700/80">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 py-6 mt-8 pb-24 sm:pb-6 text-center text-xs text-gray-500 dark:text-gray-400">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div>
+        <strong>🎯 Lakshya Marks Tracker (লক্ষ্য ট্র্যাকার)</strong> — Self-Hosted on Raspberry Pi 3B+ & Local Linux
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="openSetupGuideModal()" class="hover:text-gold font-bold text-amber-700 dark:text-amber-400 flex items-center gap-1 cursor-pointer">
+          <span>📖</span> <span data-i18n="nav_guide">Setup Guide</span>
+        </button>
+        <span>•</span>
+        <a href="/sitemap.xml" class="hover:text-gold">Sitemap</a>
+        <span>•</span>
+        <a href="/robots.txt" class="hover:text-gold">Robots.txt</a>
+        <span>•</span>
+        <button onclick="exportBackup()" class="hover:text-gold">Download Backup (.JSON)</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Bottom Navigation Dock (Visible only on mobile devices) -->
+  <nav aria-label="Mobile Navigation" class="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-gray-200 dark:border-slate-800 px-3 py-1.5 flex items-center justify-around shadow-2xl" style="padding-bottom: max(0.5rem, env(safe-area-inset-bottom));">
+    <!-- Dashboard -->
+    <button onclick="scrollToTop()" class="flex flex-col items-center justify-center p-1 text-midnight dark:text-teal-300 hover:text-gold active:scale-95 transition-transform min-w-[50px] min-h-[44px]" aria-label="Dashboard">
+      <span class="text-xl">📊</span>
+      <span class="text-[10px] font-bold mt-0.5" data-i18n="nav_dashboard">Dashboard</span>
+    </button>
+    
+    <!-- Exams Manager -->
+    <button onclick="openExamManager()" class="flex flex-col items-center justify-center p-1 text-gray-600 dark:text-gray-300 hover:text-midnight dark:hover:text-teal-300 active:scale-95 transition-transform min-w-[50px] min-h-[44px]" aria-label="Exams">
+      <span class="text-xl">🎯</span>
+      <span class="text-[10px] font-bold mt-0.5" data-i18n="btn_manage_exams">Exams</span>
+    </button>
+
+    <!-- Center Raised FAB for Log Mock -->
+    <button onclick="openModal('mockFormModal')" class="flex flex-col items-center justify-center -mt-6 bg-gradient-to-tr from-midnight to-teal-800 text-white rounded-full w-14 h-14 shadow-lg shadow-teal-900/40 border-2 border-gold active:scale-90 transition-transform cursor-pointer" aria-label="Log Mock">
+      <span class="text-2xl font-black">➕</span>
+    </button>
+
+    <!-- Scan Scorecard -->
+    <button onclick="openModal('uploadModal')" class="flex flex-col items-center justify-center p-1 text-gray-600 dark:text-gray-300 hover:text-midnight dark:hover:text-teal-300 active:scale-95 transition-transform min-w-[50px] min-h-[44px]" aria-label="Scan Scorecard">
+      <span class="text-xl">📷</span>
+      <span class="text-[10px] font-bold mt-0.5" data-i18n="nav_upload">Scan</span>
+    </button>
+
+    <!-- Setup Guide -->
+    <button onclick="openSetupGuideModal()" class="flex flex-col items-center justify-center p-1 text-amber-700 dark:text-amber-400 hover:text-gold active:scale-95 transition-transform min-w-[50px] min-h-[44px]" aria-label="Setup Guide">
+      <span class="text-xl">📖</span>
+      <span class="text-[10px] font-bold mt-0.5" data-i18n="nav_guide">Guide</span>
+    </button>
+  </nav>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- Modal 1: Log Mock Test Form -->
+  <div id="mockFormModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-gray-200 dark:border-slate-700 w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+      
+      <!-- Modal Header -->
+      <div class="p-4 sm:p-5 bg-midnight text-white flex items-center justify-between">
+        <h3 class="text-base sm:text-lg font-extrabold flex items-center gap-2">
+          <span>📝</span> <span data-i18n="form_title">Log New Mock Test</span>
+        </h3>
+        <button onclick="closeModal('mockFormModal')" class="text-gray-300 hover:text-white text-xl font-bold p-1">✕</button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-4 sm:p-6 overflow-y-auto space-y-4 text-xs sm:text-sm">
+        
+        <!-- Target Exam Selection -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-gray-700 dark:text-gray-300 mb-1" data-i18n="form_exam">Target Exam</label>
+            <select id="formExamSelect" class="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white font-semibold">
+              <!-- Populated by JS -->
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-gray-700 dark:text-gray-300 mb-1" data-i18n="form_test_name">Test Title</label>
+            <input type="text" id="inputTestTitle" class="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white" value="Mock Test #1">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block font-bold text-gray-700 dark:text-gray-300 mb-1" data-i18n="form_provider">Platform</label>
+            <input type="text" id="inputProvider" class="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800" value="Testbook">
+          </div>
+          <div>
+            <label class="block font-bold text-gray-700 dark:text-gray-300 mb-1" data-i18n="form_date">Date</label>
+            <input type="date" id="inputTestDate" class="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800">
+          </div>
+          <div>
+            <label class="block font-bold text-gray-700 dark:text-gray-300 mb-1" data-i18n="form_time_spent">Time (Min)</label>
+            <input type="number" id="inputTimeSpent" class="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800" value="90">
+          </div>
+        </div>
+
+        <!-- Numbers Input Matrix -->
+        <div class="p-4 bg-teal-50/70 dark:bg-slate-800/80 rounded-2xl border border-teal-200 dark:border-slate-700 space-y-3">
+          <div class="font-extrabold text-midnight dark:text-teal-300 flex items-center justify-between">
+            <span>📊 Test Scoring Input</span>
+            <span class="text-xs font-normal text-gray-500">Auto negative penalty calculation</span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-0.5" data-i18n="form_total_q">Total Questions</label>
+              <input type="number" id="inputTotalQ" class="w-full px-2.5 py-1.5 rounded-lg border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 font-bold" value="100">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-0.5" data-i18n="form_attempted">Attempted</label>
+              <input type="number" id="inputAttempted" class="w-full px-2.5 py-1.5 rounded-lg border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 font-bold text-indigo-600" value="84">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-emerald-700 dark:text-emerald-400 mb-0.5" data-i18n="form_correct">Correct (+)</label>
+              <input type="number" id="inputCorrect" class="w-full px-2.5 py-1.5 rounded-lg border border-emerald-300 dark:border-emerald-700 bg-white dark:bg-slate-900 font-bold text-emerald-600" value="72">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-rose-700 dark:text-rose-400 mb-0.5" data-i18n="form_wrong">Wrong (-)</label>
+              <input type="number" id="inputWrong" class="w-full px-2.5 py-1.5 rounded-lg border border-rose-300 dark:border-rose-700 bg-white dark:bg-slate-900 font-bold text-rose-600" value="12">
+            </div>
+          </div>
+
+          <!-- Hidden Exam Rules -->
+          <input type="hidden" id="inputTotalMarks" value="100">
+          <input type="hidden" id="inputMarksPerCorrect" value="1.0">
+          <input type="hidden" id="inputPenaltyPerWrong" value="0.3333">
+          <input type="hidden" id="inputTargetCutoff" value="68.0">
+
+          <!-- Live Summary Bar -->
+          <div class="grid grid-cols-3 gap-2 p-3 bg-white dark:bg-slate-900 rounded-xl border border-teal-100 dark:border-slate-800 text-center">
+            <div>
+              <div class="text-xs text-gray-400" data-i18n="form_calc_net">Net Score</div>
+              <div id="calcNetScore" class="text-lg font-black text-midnight dark:text-teal-300">68.00</div>
+            </div>
+            <div>
+              <div class="text-xs text-gray-400" data-i18n="form_calc_acc">Accuracy</div>
+              <div id="calcAccuracy" class="text-lg font-black text-emerald-600">85.7%</div>
+            </div>
+            <div>
+              <div class="text-xs text-gray-400" data-i18n="form_unattempted">Unattempted</div>
+              <div id="calcUnattempted" class="text-lg font-black text-gray-500">16</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subject Section Breakdown -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-extrabold text-midnight dark:text-teal-300" data-i18n="form_sections">Subject-Wise Sectional Breakdown</span>
+            <button type="button" onclick="addSectionRow()" class="text-xs text-teal-700 dark:text-teal-400 font-bold hover:underline" data-i18n="form_sec_add">+ Add Section</button>
+          </div>
+          <div id="sectionsContainer" class="space-y-2">
+            <!-- Dynamic section rows -->
+          </div>
+        </div>
+
+        <!-- Mistake Diary -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-extrabold text-midnight dark:text-teal-300" data-i18n="form_mistakes">Mistake Diary & Question Logs</span>
+            <button type="button" onclick="addMistakeRow()" class="text-xs text-amber-700 dark:text-amber-400 font-bold hover:underline" data-i18n="form_mis_add">+ Add Mistake Note</button>
+          </div>
+          <div id="mistakesContainer" class="space-y-2">
+            <!-- Dynamic mistake rows -->
+          </div>
+        </div>
+
+        <!-- General Notes -->
+        <div>
+          <label class="block font-bold text-gray-700 dark:text-gray-300 mb-1">General Review Observations</label>
+          <textarea id="inputNotes" rows="2" class="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800" placeholder="e.g. Need to revise Thermodynamics formulas, Silly calculation error in SI/CI."></textarea>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 bg-gray-50 dark:bg-slate-800/80 border-t border-gray-200 dark:border-slate-700 flex items-center justify-end gap-2">
+        <button type="button" onclick="closeModal('mockFormModal')" class="px-4 py-2 rounded-xl border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-100" data-i18n="btn_cancel">Cancel</button>
+        <button type="button" onclick="saveMockTest()" class="bg-midnight hover:bg-teal-900 text-white font-extrabold px-5 py-2 rounded-xl shadow-sm hover:shadow" data-i18n="btn_save">Save Test Results 💾</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal 2: Scorecard Upload & Scan -->
+  <div id="uploadModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-gray-200 dark:border-slate-700 w-full max-w-lg p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base sm:text-lg font-extrabold text-midnight dark:text-teal-300 flex items-center gap-2">
+          <span>📷</span> <span data-i18n="upload_modal_title">Scan & Upload Scorecard</span>
+        </h3>
+        <button onclick="closeModal('uploadModal')" class="text-gray-400 hover:text-gray-600 font-bold text-lg">✕</button>
+      </div>
+
+      <!-- Dropzone -->
+      <div id="scorecardDropzone" class="border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-2xl p-6 text-center cursor-pointer hover:border-gold transition-colors">
+        <input type="file" id="scorecardFileInput" class="hidden" accept="image/*,.pdf">
+        <div class="text-4xl mb-2">📸</div>
+        <p class="text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300" data-i18n="upload_drag_text">
+          Drag & drop your scorecard screenshot here, or click to browse
+        </p>
+        <p class="text-xs text-gold font-bold mt-2 flex items-center justify-center gap-1.5">
+          <span>📋</span>
+          <span>অথবা সরাসরি কীবোর্ডে <kbd class="px-1.5 py-0.5 rounded bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-gray-200 font-mono text-[11px] shadow-xs">Ctrl + V</kbd> চেপে স্ক্রিনশট পেস্ট করুন!</span>
+        </p>
+        <p class="text-xs text-gray-400 mt-1" data-i18n="upload_tip">
+          Supports Testbook, Oliveboard, Adda247, or any scorecard image
+        </p>
+      </div>
+
+      <!-- Preview Image -->
+      <img id="scorecardPreviewImg" src="" alt="Scorecard Preview" class="hidden max-h-48 mx-auto rounded-xl shadow-sm border border-gray-200">
+
+      <!-- Status Indicator -->
+      <div id="uploadScanStatus" class="hidden flex items-center justify-center gap-2 text-xs font-bold text-teal-700 dark:text-teal-400 py-2">
+        <span class="animate-spin text-base">⏳</span>
+        <span id="uploadScanStatusText" data-i18n="upload_scanning">Scanning scorecard and extracting marks...</span>
+      </div>
+
+      <!-- OCR Extracted Card Preview -->
+      <div id="ocrExtractedCard" class="hidden p-3.5 rounded-2xl bg-teal-50/90 dark:bg-slate-800 border border-teal-200/90 dark:border-teal-700 text-xs space-y-2">
+        <div class="font-bold text-teal-950 dark:text-teal-200 flex items-center justify-between">
+          <span class="flex items-center gap-1.5"><span>🎯</span> <span data-i18n="ocr_detected_heading">OCR Extracted Scorecard Details</span></span>
+          <span id="ocrStatusBadge" class="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 text-[10px] font-black">AI Scanned</span>
+        </div>
+        <div id="ocrExtractedDetails" class="grid grid-cols-4 gap-2 text-center pt-1 font-mono text-xs">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2">
+        <button onclick="closeModal('uploadModal')" class="px-4 py-2 rounded-xl text-gray-600 dark:text-gray-300 font-bold text-xs" data-i18n="btn_cancel">Cancel</button>
+        <button onclick="closeModal('uploadModal'); openModal('mockFormModal');" class="bg-midnight text-white font-bold text-xs px-4 py-2 rounded-xl" data-i18n="upload_confirm_btn">
+          Confirm & Populate Form
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Target & Pursued Exams Management (Kanboard Sync + Manual Mode) -->
+  <div id="examManagerModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-gray-200 dark:border-slate-700 w-full max-w-4xl p-5 sm:p-6 space-y-4 max-h-[92vh] flex flex-col">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-2 border-b border-gray-100 dark:border-slate-800">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🎯</span>
+          <h3 class="text-base sm:text-lg font-black text-midnight dark:text-teal-300" data-i18n="exam_manager_title">
+            Target & Pursued Exams Management
+          </h3>
+        </div>
+        <button onclick="closeModal('examManagerModal')" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 font-bold text-lg p-1">✕</button>
+      </div>
+
+      <!-- Kanboard Status & Sync Banner -->
+      <div id="kanboardStatusBanner" class="p-3 rounded-2xl bg-teal-50 dark:bg-teal-950/40 border border-teal-200/80 dark:border-teal-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <span id="kanboardStatusDot" class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+          <span id="kanboardStatusText" class="text-xs font-semibold text-teal-900 dark:text-teal-200">
+            Kanboard Sync Available (Project #4: 🎯 Govt Exam Tracker)
+          </span>
+        </div>
+        <div class="flex items-center gap-2 self-end sm:self-auto shrink-0">
+          <button id="modalSyncBtn" onclick="syncKanboard()" class="bg-teal-800 hover:bg-teal-700 text-white font-bold text-xs px-3 py-1.5 rounded-xl flex items-center gap-1 shadow-xs">
+            <span>🔄</span> <span data-i18n="btn_sync_kanboard">Sync Kanboard</span>
+          </button>
+          <button onclick="switchExamTab('add')" class="bg-gold hover:bg-yellow-500 text-midnight font-black text-xs px-3 py-1.5 rounded-xl shadow-xs">
+            <span data-i18n="tab_add_exam">+ Add Exam</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="flex border-b border-gray-200 dark:border-slate-800 gap-2">
+        <button id="tabBtnListExams" onclick="switchExamTab('list')" class="px-4 py-2 text-xs sm:text-sm font-extrabold text-midnight dark:text-teal-300 border-b-2 border-gold -mb-px flex items-center gap-1.5">
+          <span>📋</span> <span data-i18n="tab_active_exams">Active Pursued Exams</span>
+          <span id="examCountBadge" class="ml-1 px-1.5 py-0.5 rounded-full bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200 text-[10px] font-black">0</span>
+        </button>
+        <button id="tabBtnAddExam" onclick="switchExamTab('add')" class="px-4 py-2 text-xs sm:text-sm font-bold text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 border-b-2 border-transparent -mb-px flex items-center gap-1.5">
+          <span>✍️</span> <span id="formTabLabel" data-i18n="tab_add_exam">+ Add / Edit Exam Manually</span>
+        </button>
+      </div>
+
+      <!-- Tab 1: Scrollable List of All Exams -->
+      <div id="viewListExams" class="flex-1 overflow-y-auto space-y-3 pr-1">
+        <div class="flex items-center justify-between gap-3 mb-2">
+          <input type="text" id="examSearchInput" oninput="filterExamCards()" placeholder="Search exams by name or stage..." class="w-full text-xs px-3 py-2 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200">
+        </div>
+        <div id="examCardsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Tab 2: Manual Add / Edit Form -->
+      <div id="viewFormExam" class="hidden flex-1 overflow-y-auto space-y-4 pr-1">
+        <form id="manualExamForm" onsubmit="handleManualExamSubmit(event)" class="space-y-3">
+          <input type="hidden" id="examEditId" value="">
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1" data-i18n="exam_name_label">Exam Name</label>
+              <input type="text" id="inputExamName" required placeholder="e.g. RRB JE 2026 (CEN 04/2026)" class="w-full text-xs sm:text-sm px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white font-medium">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1" data-i18n="exam_code_label">Exam Code / Slug</label>
+              <input type="text" id="inputExamCode" placeholder="Auto-generated if left blank" class="w-full text-xs sm:text-sm px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white font-mono text-xs">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1" data-i18n="exam_stage_label">Current Stage</label>
+              <select id="inputExamStage" class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white font-semibold">
+                <option value="📥 To Apply">📥 To Apply</option>
+                <option value="🟢 Application Ongoing">🟢 Application Ongoing</option>
+                <option value="📝 Applied" selected>📝 Applied</option>
+                <option value="🗺️ City Slip Out">🗺️ City Slip Out</option>
+                <option value="🎫 Admit Card Out">🎫 Admit Card Out</option>
+                <option value="💻 CBT 1 Done">💻 CBT 1 Done</option>
+                <option value="⏳ Awaiting CBT 1 Result">⏳ Awaiting CBT 1 Result</option>
+                <option value="✅ CBT 1 Qualified">✅ CBT 1 Qualified</option>
+                <option value="🎫 CBT 2 Admit Out">🎫 CBT 2 Admit Out</option>
+                <option value="🧪 CBT 2 Done">🧪 CBT 2 Done</option>
+                <option value="⏳ Awaiting CBT 2 Result">⏳ Awaiting CBT 2 Result</option>
+                <option value="✅ CBT 2 Qualified">✅ CBT 2 Qualified</option>
+                <option value="👨‍💼 DV/Interview Scheduled">👨‍💼 DV/Interview Scheduled</option>
+                <option value="🪪 DV/Interview Done">🪪 DV/Interview Done</option>
+                <option value="⏳ Final Result Awaited">⏳ Final Result Awaited</option>
+                <option value="🎉 Selected">🎉 Selected</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1" data-i18n="total_marks_label">Total Marks</label>
+              <input type="number" step="0.5" id="inputExamTotalMarks" value="100" class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1" data-i18n="total_q_label">Total Questions</label>
+              <input type="number" id="inputExamTotalQ" value="100" class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1" data-i18n="marks_per_correct_label">Marks / Correct (+)</label>
+              <input type="number" step="0.01" id="inputExamMarksPerCorrect" value="1.0" class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white text-emerald-600 font-bold">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1" data-i18n="penalty_per_wrong_label">Penalty / Wrong (-)</label>
+              <input type="number" step="0.0001" id="inputExamPenaltyPerWrong" value="0.3333" class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white text-rose-600 font-bold">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1" data-i18n="target_cutoff_label">Target Cutoff Marks</label>
+              <input type="number" step="0.5" id="inputExamTargetCutoff" value="68.0" class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white text-gold font-bold">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1" data-i18n="sections_label">Syllabus Sections (Comma-separated)</label>
+            <input type="text" id="inputExamSections" placeholder="e.g. Mathematics, General Intelligence & Reasoning, General Science, General Awareness" class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white">
+          </div>
+
+          <div class="flex items-center justify-end gap-2 pt-3 border-t border-gray-100 dark:border-slate-800">
+            <button type="button" onclick="switchExamTab('list')" class="px-4 py-2 rounded-xl text-gray-600 dark:text-gray-300 font-bold text-xs" data-i18n="btn_cancel">Cancel</button>
+            <button type="submit" class="bg-midnight hover:bg-teal-900 text-white font-extrabold text-xs px-5 py-2.5 rounded-xl shadow-xs" data-i18n="btn_save_exam">
+              💾 Save Exam
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal 4: Setup & Mobile Browser Guide -->
+  <div id="setupGuideModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-gray-200 dark:border-slate-700 w-full max-w-3xl max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+      
+      <!-- Modal Header -->
+      <div class="p-4 sm:p-5 bg-gradient-to-r from-midnight to-teal-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="text-2xl">📖</span>
+          <div>
+            <h3 class="text-base sm:text-lg font-black leading-tight" data-i18n="guide_modal_title">
+              Lakshya Setup & Mobile Browser Guide
+            </h3>
+            <p class="text-xs text-teal-200/90 font-medium hidden sm:block" data-i18n="guide_subtitle">
+              Step-by-step instructions for Mobile Browser, PWA install, and Remote Access
+            </p>
+          </div>
+        </div>
+        <button onclick="closeModal('setupGuideModal')" class="text-gray-300 hover:text-white text-xl font-bold p-1 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg" aria-label="Close">✕</button>
+      </div>
+
+      <!-- Tab Buttons Header -->
+      <div class="flex border-b border-gray-200 dark:border-slate-800 bg-gray-50/80 dark:bg-slate-800/50 px-2 sm:px-4 overflow-x-auto no-scrollbar">
+        <button id="guideTabBtn_mobile" onclick="switchGuideTab('mobile')" class="px-3 sm:px-4 py-2.5 text-xs sm:text-sm font-extrabold border-b-2 border-gold text-midnight dark:text-teal-300 -mb-px flex items-center gap-1.5 shrink-0">
+          <span data-i18n="guide_tab_mobile">📱 Mobile & PWA</span>
+        </button>
+        <button id="guideTabBtn_network" onclick="switchGuideTab('network')" class="px-3 sm:px-4 py-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-midnight dark:hover:text-teal-300 -mb-px flex items-center gap-1.5 shrink-0">
+          <span data-i18n="guide_tab_network">🌐 Wi-Fi & Tailscale</span>
+        </button>
+        <button id="guideTabBtn_ocr" onclick="switchGuideTab('ocr')" class="px-3 sm:px-4 py-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-midnight dark:hover:text-teal-300 -mb-px flex items-center gap-1.5 shrink-0">
+          <span data-i18n="guide_tab_ocr">📸 Scorecard Scan</span>
+        </button>
+        <button id="guideTabBtn_sync" onclick="switchGuideTab('sync')" class="px-3 sm:px-4 py-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-midnight dark:hover:text-teal-300 -mb-px flex items-center gap-1.5 shrink-0">
+          <span data-i18n="guide_tab_sync">🔄 Kanboard Sync</span>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-4 sm:p-6 overflow-y-auto space-y-4 text-xs sm:text-sm">
+        
+        <!-- Tab 1: Mobile & PWA -->
+        <div id="guideTabView_mobile" class="space-y-4">
+          <div class="p-4 rounded-2xl bg-teal-50/70 dark:bg-slate-800 border border-teal-200/80 dark:border-slate-700 space-y-2">
+            <h4 class="font-extrabold text-midnight dark:text-teal-300 text-sm flex items-center gap-2">
+              <span class="text-base">🌐</span> <span data-i18n="guide_step1_title">1. Accessing on Mobile Browser</span>
+            </h4>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed" data-i18n="guide_step1_desc">
+              Open Google Chrome on Android or Safari on iPhone. Type your server address in the browser bar. No heavy third-party app download is required.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-amber-50/70 dark:bg-slate-800 border border-amber-200/80 dark:border-slate-700 space-y-3">
+            <h4 class="font-extrabold text-midnight dark:text-teal-300 text-sm flex items-center gap-2">
+              <span class="text-base">📲</span> <span data-i18n="guide_step2_title">2. Install as Native App (1-Tap PWA)</span>
+            </h4>
+            
+            <!-- Android Card -->
+            <div class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-amber-100 dark:border-slate-800 space-y-1">
+              <div class="font-bold text-gray-900 dark:text-gray-100 flex items-center gap-1.5">
+                <span>🤖</span> <span>Android (Google Chrome)</span>
+              </div>
+              <p class="text-gray-600 dark:text-gray-300 text-xs leading-relaxed" data-i18n="guide_step2_android">
+                Android (Chrome): Tap the 3 dots (⋮) in the top-right corner -> Select 'Install app' or 'Add to Home screen'. A full-screen app icon will be pinned to your phone!
+              </p>
+            </div>
+
+            <!-- iOS Card -->
+            <div class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-amber-100 dark:border-slate-800 space-y-1">
+              <div class="font-bold text-gray-900 dark:text-gray-100 flex items-center gap-1.5">
+                <span>🍎</span> <span>iPhone / iPad (Apple Safari)</span>
+              </div>
+              <p class="text-gray-600 dark:text-gray-300 text-xs leading-relaxed" data-i18n="guide_step2_ios">
+                iPhone (Safari): Tap the Share button (⎋) at the bottom -> Scroll down and tap 'Add to Home Screen (+)' -> Tap 'Add'.
+              </p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-emerald-50/70 dark:bg-slate-800 border border-emerald-200/80 dark:border-slate-700 space-y-1.5">
+            <h4 class="font-extrabold text-emerald-900 dark:text-emerald-300 text-sm flex items-center gap-2">
+              <span class="text-base">⚡</span> <span data-i18n="guide_step3_title">3. Ultra-Fast Offline Caching</span>
+            </h4>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-xs" data-i18n="guide_step3_desc">
+              Lakshya operates with full service worker caching and offline SQLite persistence, opening in under 100ms even with patchy internet.
+            </p>
+          </div>
+        </div>
+
+        <!-- Tab 2: Wi-Fi & Tailscale -->
+        <div id="guideTabView_network" class="hidden space-y-4">
+          <!-- Home Wi-Fi -->
+          <div class="p-4 rounded-2xl bg-teal-50/80 dark:bg-slate-800 border border-teal-200 dark:border-slate-700 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <h4 class="font-extrabold text-midnight dark:text-teal-300 text-sm flex items-center gap-2">
+                <span>🏠</span> <span data-i18n="guide_net_home_title">At Home (Home Wi-Fi)</span>
+              </h4>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200">Local LAN</span>
+            </div>
+            <p class="text-gray-700 dark:text-gray-300 text-xs" data-i18n="guide_net_home_desc">
+              When connected to your home Wi-Fi network, open directly at:
+            </p>
+            <div class="flex items-center justify-between gap-2 p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-teal-200/60 dark:border-slate-700">
+              <code class="font-mono text-xs text-midnight dark:text-teal-200 font-bold select-all">http://192.168.29.2:8856</code>
+              <button type="button" onclick="copyToClipboard('http://192.168.29.2:8856', this)" class="bg-teal-800 hover:bg-teal-700 text-white font-bold text-xs px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-xs transition-colors shrink-0">
+                <span data-i18n="btn_copy">📋 Copy Link</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Outside / Tailscale -->
+          <div class="p-4 rounded-2xl bg-indigo-50/80 dark:bg-slate-800 border border-indigo-200 dark:border-slate-700 space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="font-extrabold text-indigo-950 dark:text-indigo-200 text-sm flex items-center gap-2">
+                <span>🚀</span> <span data-i18n="guide_net_remote_title">Outside / Travel (Mobile Data & Tailscale)</span>
+              </h4>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200">Remote VPN</span>
+            </div>
+            <p class="text-gray-700 dark:text-gray-300 text-xs" data-i18n="guide_net_remote_desc">
+              When away from home, connect securely using Tailscale VPN (100% private, zero port-forwarding):
+            </p>
+            <ul class="space-y-1.5 text-xs text-gray-700 dark:text-gray-300 list-disc list-inside">
+              <li data-i18n="guide_net_step1">Step 1: Install the free 'Tailscale' app from Google Play Store or iOS App Store.</li>
+              <li data-i18n="guide_net_step2">Step 2: Sign in with your registered Google account and toggle the connection switch ON.</li>
+              <li data-i18n="guide_net_step3">Step 3: Open your mobile browser and go to:</li>
+            </ul>
+            <div class="flex items-center justify-between gap-2 p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-indigo-200/60 dark:border-slate-700">
+              <code class="font-mono text-xs text-indigo-900 dark:text-indigo-200 font-bold select-all">http://100.80.199.101:8856</code>
+              <button type="button" onclick="copyToClipboard('http://100.80.199.101:8856', this)" class="bg-indigo-700 hover:bg-indigo-600 text-white font-bold text-xs px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-xs transition-colors shrink-0">
+                <span data-i18n="btn_copy">📋 Copy Link</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: OCR Scorecard -->
+        <div id="guideTabView_ocr" class="hidden space-y-3">
+          <div class="p-4 rounded-2xl bg-amber-50/70 dark:bg-slate-800 border border-amber-200 dark:border-slate-700 space-y-2.5">
+            <h4 class="font-extrabold text-midnight dark:text-teal-300 text-sm flex items-center gap-2">
+              <span>📸</span> <span data-i18n="guide_ocr_title">Scorecard Photo & Screenshot OCR</span>
+            </h4>
+            <div class="space-y-2 text-xs text-gray-700 dark:text-gray-300">
+              <div class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-amber-100 dark:border-slate-800">
+                <strong class="text-amber-800 dark:text-amber-300">1. Take Screenshot:</strong> <span data-i18n="guide_ocr_step1">Take a screenshot of your result scorecard on Testbook, Oliveboard, or Adda247.</span>
+              </div>
+              <div class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-amber-100 dark:border-slate-800">
+                <strong class="text-amber-800 dark:text-amber-300">2. Upload or Paste:</strong> <span data-i18n="guide_ocr_step2">Tap '📷 Upload Scorecard' to select the image, or simply press 'Ctrl + V' on computer.</span>
+              </div>
+              <div class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-amber-100 dark:border-slate-800">
+                <strong class="text-amber-800 dark:text-amber-300">3. Auto Calculation:</strong> <span data-i18n="guide_ocr_step3">Lakshya's smart scanner reads your marks, total questions, and automatically calculates negative penalties!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Kanboard Sync & Safety -->
+        <div id="guideTabView_sync" class="hidden space-y-3">
+          <div class="p-4 rounded-2xl bg-teal-50/80 dark:bg-slate-800 border border-teal-200 dark:border-slate-700 space-y-2.5">
+            <h4 class="font-extrabold text-midnight dark:text-teal-300 text-sm flex items-center gap-2">
+              <span>🔄</span> <span data-i18n="guide_sync_title">Kanboard Syllabus & Target Sync</span>
+            </h4>
+            <p class="text-xs text-gray-700 dark:text-gray-300 leading-relaxed" data-i18n="guide_sync_desc">
+              Click 'Sync Kanboard' at any time to pull all active recruitment exams and target cutoffs directly from Project #4.
+            </p>
+          </div>
+          <div class="p-4 rounded-2xl bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 space-y-2">
+            <h4 class="font-extrabold text-gray-900 dark:text-gray-100 text-sm flex items-center gap-2">
+              <span>💾</span> <span>Offline Data Safety & Backup</span>
+            </h4>
+            <p class="text-xs text-gray-600 dark:text-gray-300">
+              Download your entire test history as a JSON backup with one click. Even if your homeserver is restarted or offline, all previous test marks remain safe.
+            </p>
+            <button type="button" onclick="exportBackup()" class="bg-gray-800 hover:bg-gray-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-xs transition-colors">
+              <span>💾</span> <span data-i18n="nav_export">Download JSON Backup</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-3 sm:p-4 bg-gray-50 dark:bg-slate-800/80 border-t border-gray-200 dark:border-slate-700 flex items-center justify-end">
+        <button type="button" onclick="closeModal('setupGuideModal')" class="bg-midnight hover:bg-teal-900 text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow-xs transition-colors" data-i18n="btn_cancel">
+          Close Guide ✕
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Tesseract OCR Engine (Client-side WASM for Scorecard Extraction) -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js" async></script>
+
+  <!-- Scripts -->
+  <script src="/static/js/i18n.js"></script>
+  <script src="/static/js/charts.js"></script>
+  <script src="/static/js/app.js"></script>
+  <script>
+    // Initialize date picker to today
+    document.addEventListener("DOMContentLoaded", () => {
+      const dateEl = document.getElementById("inputTestDate");
+      if (dateEl) dateEl.value = new Date().toISOString().split("T")[0];
+    });
+  </script>
+  <script>
+    // PWA Installation & Service Worker Registration
+    let deferredPrompt = null;
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const btn = document.getElementById("btnInstallPwa");
+      if (btn) btn.classList.remove("hidden");
+    });
+
+    window.addEventListener("appinstalled", () => {
+      deferredPrompt = null;
+      const btn = document.getElementById("btnInstallPwa");
+      if (btn) btn.classList.add("hidden");
+      console.log("Lakshya Marks Tracker installed as App!");
+    });
+
+    function installPWA() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === "accepted") {
+            const btn = document.getElementById("btnInstallPwa");
+            if (btn) btn.classList.add("hidden");
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        alert("Lakshya is ready! You can install it anytime from your Chrome menu (⋮) -> 'Install Lakshya Marks Tracker'.");
+      }
+    }
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/sw.js").then((reg) => {
+          console.log("Lakshya Service Worker Active:", reg.scope);
+        }).catch((err) => {
+          console.warn("SW register fail:", err);
+        });
+      });
+    }
+  </script>
+</body>
+</html>
