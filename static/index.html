@@ -1036,16 +1036,36 @@
           </div>
         </div>
 
-        <!-- Tab 4: Kanboard Sync & Safety -->
+        <!-- Tab 5: Kanboard Sync & Safety -->
         <div id="guideTabView_sync" class="hidden space-y-3">
           <div class="p-4 rounded-2xl bg-teal-50/80 dark:bg-slate-800 border border-teal-200 dark:border-slate-700 space-y-2.5">
-            <h4 class="font-extrabold text-midnight dark:text-teal-300 text-sm flex items-center gap-2">
-              <span>🔄</span> <span data-i18n="guide_sync_title">Kanboard Syllabus & Target Sync</span>
-            </h4>
+            <div class="flex items-center justify-between">
+              <h4 class="font-extrabold text-midnight dark:text-teal-300 text-sm flex items-center gap-2">
+                <span>🔄</span> <span data-i18n="guide_sync_title">Kanboard Syllabus & Target Sync</span>
+              </h4>
+              <button type="button" onclick="syncKanboard()" class="bg-teal-800 hover:bg-teal-700 text-white font-bold text-xs px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-xs transition-colors shrink-0">
+                <span>🔄</span> <span data-i18n="nav_sync_kb">Sync Kanboard</span>
+              </button>
+            </div>
             <p class="text-xs text-gray-700 dark:text-gray-300 leading-relaxed" data-i18n="guide_sync_desc">
-              Click 'Sync Kanboard' at any time to pull all active recruitment exams and target cutoffs directly from Project #4.
+              Kanboard is a self-hosted Kanban board. Lakshya can automatically sync all your active government exam goals, syllabus sections, cutoffs, and application stages from Kanboard Project #4.
+            </p>
+            <div class="space-y-1.5 text-xs text-gray-700 dark:text-gray-300 pt-1">
+              <div class="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-teal-100 dark:border-slate-800 space-y-1">
+                <span class="font-bold text-teal-900 dark:text-teal-300" data-i18n="guide_sync_step1">Step 1: In your Kanboard instance, go to Settings > API and copy your API Token and JSON-RPC URL.</span>
+              </div>
+              <div class="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-teal-100 dark:border-slate-800 space-y-1">
+                <span class="font-bold text-teal-900 dark:text-teal-300" data-i18n="guide_sync_step2">Step 2: Add KANBOARD_URL, KANBOARD_USER, and KANBOARD_TOKEN to your .env or docker-compose.yml file.</span>
+              </div>
+              <div class="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-teal-100 dark:border-slate-800 space-y-1">
+                <span class="font-bold text-teal-900 dark:text-teal-300" data-i18n="guide_sync_step3">Step 3: Click '🔄 Sync Kanboard' on top or in Manage Exams — all active recruitment tasks will sync instantly!</span>
+              </div>
+            </div>
+            <p class="text-[11px] text-teal-800 dark:text-teal-300 italic pt-1" data-i18n="guide_sync_optional_note">
+              💡 Completely Optional: If you don't use Kanboard, no problem! You can add, edit, and track any exam manually from '🎯 Manage Exams'.
             </p>
           </div>
+
           <div class="p-4 rounded-2xl bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 space-y-2">
             <h4 class="font-extrabold text-gray-900 dark:text-gray-100 text-sm flex items-center gap-2">
               <span>💾</span> <span>Offline Data Safety & Backup</span>

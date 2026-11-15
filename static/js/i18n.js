@@ -160,7 +160,11 @@ const i18nData = {
     guide_ocr_step3: "Lakshya's smart scanner reads your marks, total questions, and automatically calculates negative penalties!",
 
     guide_sync_title: "Kanboard Syllabus & Target Sync",
-    guide_sync_desc: "Click 'Sync Kanboard' at any time to pull all active recruitment exams and target cutoffs directly from Project #4."
+    guide_sync_desc: "Kanboard is a self-hosted Kanban board. Lakshya can automatically sync all your active government exam goals, syllabus sections, cutoffs, and application stages from Kanboard Project #4.",
+    guide_sync_step1: "Step 1: In your Kanboard instance, go to Settings > API and copy your API Token and JSON-RPC URL (e.g. http://kanboard-ip:80/jsonrpc.php).",
+    guide_sync_step2: "Step 2: Add KANBOARD_URL, KANBOARD_USER, and KANBOARD_TOKEN to your .env or docker-compose.yml file.",
+    guide_sync_step3: "Step 3: Click '🔄 Sync Kanboard' on top or in Manage Exams — all active recruitment tasks will sync instantly!",
+    guide_sync_optional_note: "💡 Completely Optional: If you don't use Kanboard, no problem! You can add, edit, and track any exam manually from '🎯 Manage Exams'."
   },
   
   bn: {
@@ -314,7 +318,11 @@ const i18nData = {
     guide_ocr_step3: "কৃত্রিম বুদ্ধিমত্তা স্বয়ংক্রিয়ভাবে প্রাপ্ত নম্বর, সঠিক ও ভুল উত্তর পড়ে নিয়ে ফর্মে বসিয়ে দেবে!",
 
     guide_sync_title: "কানবান সিলেবাস ও লক্ষ্য সিঙ্ক",
-    guide_sync_desc: "'কানবান সিঙ্ক' বাটনে চাপলে প্রজেক্ট #৪-এর সমস্ত সক্রিয় পরীক্ষার সিলেবাস ও কাটঅফ স্বয়ংক্রিয়ভাবে আপডেট হয়ে যাবে।"
+    guide_sync_desc: "কানবান (Kanboard) হলো সেলফ-হোস্টেড টাস্কবোর্ড। লক্ষ্য ট্র্যাকার আপনার কানবানবোর্ডের প্রজেক্ট #৪ থেকে সমস্ত সক্রিয় সরকারি চাকরির পরীক্ষার টাস্ক, সিলেবাস ও কাটঅফ স্বয়ংক্রিয়ভাবে সিঙ্ক করে নিতে পারে।",
+    guide_sync_step1: "ধাপ ১: আপনার কানবানের সেটিংস (Settings > API)-এ গিয়ে API Token এবং JSON-RPC URL সংগ্রহ করুন।",
+    guide_sync_step2: "ধাপ ২: ডকার .env ফাইলে KANBOARD_URL, KANBOARD_USER এবং KANBOARD_TOKEN ভ্যারিয়েবল সেট করুন।",
+    guide_sync_step3: "ধাপ ৩: লক্ষ্য ট্র্যাকারের উপরের '🔄 কানবান সিঙ্ক' বোতামে চাপুন — সমস্ত সক্রিয় পরীক্ষা মুহূর্তের মধ্যে আপডেট হয়ে যাবে!",
+    guide_sync_optional_note: "💡 এটি সম্পূর্ণ ঐচ্ছিক: আপনার কানবান না থাকলেও কোনো সমস্যা নেই! '🎯 পরীক্ষা পরিচালনা' মেনু থেকে আপনি নিজে যেকোনো পরীক্ষা যোগ ও এডিট করতে পারেন।"
   },
   
   hi: {
@@ -467,7 +475,11 @@ const i18nData = {
     guide_ocr_step3: "आर्टिफिशियल इंटेलिजेंस तुरंत आपके अंक, सही और गलत उत्तर पढ़कर फॉर्म में भर देगा!",
 
     guide_sync_title: "कानबान सिलेबस और लक्ष्य सिंक",
-    guide_sync_desc: "'कानबान सिंक' बटन दबाते ही प्रोजेक्ट #४ के सभी सक्रिय सरकारी परीक्षा लक्ष्य ऑटो-सिंक हो जाएंगे।"
+    guide_sync_desc: "कानबान (Kanboard) एक सेल्फ-होस्टेड टास्कबोर्ड है। लक्ष्य ट्रैकर आपके कानबान प्रोजेक्ट #४ से सभी सक्रिय सरकारी परीक्षा लक्ष्यों, सिलेबस और कटऑफ को ऑटोमैटिक सिंक कर सकता है।",
+    guide_sync_step1: "स्टेप १: अपने कानबान के Settings > API में जाकर API Token और JSON-RPC URL प्राप्त करें।",
+    guide_sync_step2: "स्टेप २: डॉकर .env फाइल में KANBOARD_URL, KANBOARD_USER और KANBOARD_TOKEN सेट करें।",
+    guide_sync_step3: "स्टेप ३: लक्ष्य ट्रैकर में ऊपर '🔄 कानबान सिंक' बटन दबाएं — सभी सक्रिय परीक्षाएं तुरंत सिंक हो जाएंगी!",
+    guide_sync_optional_note: "💡 पूरी तरह वैकल्पिक: यदि आप कानबान का उपयोग नहीं करते हैं, तो कोई बात नहीं! आप '🎯 परीक्षा प्रबंधन' से खुद किसी भी परीक्षा को जोड़ सकते हैं।"
   },
 
   ta: {
@@ -542,7 +554,11 @@ const i18nData = {
     guide_ocr_step3: "AI தானாகவே சரியான மதிப்பெண்கள் மற்றும் நெகட்டிவ் மதிப்பெண்களைக் கணக்கிடும்.",
 
     guide_sync_title: "பாடத்திட்டம் மற்றும் இலக்கு ஒத்திசைவு",
-    guide_sync_desc: "உங்கள் அனைத்து அரசு தேர்வு இலக்குகளையும் எளிதாக மேலாண்மை செய்து கண்காணிக்கலாம்."
+    guide_sync_desc: "கான்பான் (Kanboard) என்பது ஒரு தனிநபர் பணி பலகை ஆகும். லக்ஷ்யா உங்கள் செயலில் உள்ள அரசு தேர்வு இலக்குகளையும் நிலைகளையும் எளிதாக ஒத்திசைக்க முடியும்.",
+    guide_sync_step1: "படி 1: உங்கள் கான்பான் அமைப்புகளிலிருந்து (Settings > API) API Token மற்றும் JSON-RPC URL ஐப் பெறவும்.",
+    guide_sync_step2: "படி 2: டாக்கர் .env கோப்பில் KANBOARD_URL மற்றும் KANBOARD_TOKEN ஐச் சேர்க்கவும்.",
+    guide_sync_step3: "படி 3: லக்ஷ்யாவில் '🔄 தேர்வு ஒத்திசைவு' பொத்தானைக் கிளிக் செய்யவும் — அனைத்து தேர்வுகளும் உடனே பதிவேற்றப்படும்!",
+    guide_sync_optional_note: "💡 முற்றிலும் விருப்பமானது: உங்களிடம் கான்பான் இல்லையென்றாலும் எந்தப் பிரச்சினையும் இல்லை, நீங்களே நேரடியாக தேர்வுகளைச் சேர்க்கலாம்."
   },
 
   te: {

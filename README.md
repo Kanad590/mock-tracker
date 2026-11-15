@@ -232,6 +232,40 @@ javascript:(function(){const t=document.body.innerText;const isCGL=/ssc\s*cgl/i.
 
 ---
 
+### 🔄 Self-Hosted Kanboard Sync Guide (Optional Integration)
+
+[Kanboard](https://kanboard.org/) is a fast, self-hosted visual task and workflow manager. If you track your exam preparation milestones using Kanboard (e.g. Project #4 "Govt Exam Tracker"), Lakshya can automatically sync active exams, application stages, and syllabus sections without manual data entry.
+
+- 🇬🇧 **How to Set Up:**
+  1. In your Kanboard instance, navigate to **Settings > API** and copy your **API Token** and **Endpoint URL** (e.g. `http://kanboard-ip:80/jsonrpc.php`).
+  2. Set the environment variables in your `.env` or `docker-compose.yml`:
+     ```env
+     KANBOARD_URL=http://192.168.1.50:1337/jsonrpc.php
+     KANBOARD_USER=ai
+     KANBOARD_TOKEN=your_kanboard_api_token_here
+     KANBOARD_PROJECT_ID=4
+     ```
+  3. In Lakshya's web interface, click **"🔄 Sync Kanboard"** on the top navigation bar or inside **"🎯 Manage Exams"**.
+  4. Active exam cards, application stages (`To Apply`, `Applied`, `Admit Card Out`, `Awaiting Result`), and subject sections will be imported instantly!
+
+- 🇮🇳 **বাংলায় কানবান সিঙ্ক নির্দেশিকা:**
+  1. আপনার Kanboard-এ লগইন করে **Settings > API** থেকে **API Token** এবং **JSON-RPC URL** সংগ্রহ করুন।
+  2. `.env` ফাইলে `KANBOARD_URL`, `KANBOARD_USER`, `KANBOARD_TOKEN` এবং `KANBOARD_PROJECT_ID=4` বসিয়ে দিন।
+  3. লক্ষ্য ট্র্যাকারে ওপরের **"🔄 কানবান সিঙ্ক"** বোতামে ক্লিক করুন — সক্রিয় পরীক্ষাগুলো নিমেষে সিঙ্ক হয়ে যাবে!
+  4. *বি.দ্র.: আপনার কানবানবোর্ড না থাকলেও কোনো সমস্যা নেই। এটি সম্পূর্ণ ঐচ্ছিক। আপনি '🎯 পরীক্ষা পরিচালনা' মেনু থেকে নিজে যেকোনো পরীক্ষার নাম ও সিলেবাস সরাসরি যুক্ত করতে পারেন।*
+
+- 🇮🇳 **हिन्दी में कानबान सिंक निर्देशिका:**
+  1. अपने Kanboard में **Settings > API** से **API Token** और **JSON-RPC URL** कॉपी करें।
+  2. `.env` या `docker-compose.yml` में `KANBOARD_URL`, `KANBOARD_TOKEN` और `KANBOARD_PROJECT_ID=4` सेट करें।
+  3. लक्ष्य ट्रैकर में ऊपर दिए गए **"🔄 कानबान सिंक"** बटन पर क्लिक करें। सभी सक्रिय सरकारी परीक्षाएं तुरंत अपडेट हो जाएंगी।
+
+- 🇮🇳 **தமிழில் கான்பான் ஒத்திசைவு:**
+  1. உங்கள் Kanboard கணக்கில் **Settings > API** பக்கத்திலிருந்து API Token ஐப் பெறவும்.
+  2. `.env` கோப்பில் `KANBOARD_URL` மற்றும் `KANBOARD_TOKEN` ஐச் சேர்க்கவும்.
+  3. லக்ஷ்யாவில் **"🔄 தேர்வு ஒத்திசைவு"** பொத்தானைக் கிளிக் செய்து அனைத்து தேர்வுகளையும் உடனடியாக ஒத்திசைக்கவும்.
+
+---
+
 ## ⚙️ Configuration & Environment Variables
 
 All settings can be configured via environment variables or a `.env` file:
